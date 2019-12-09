@@ -8,7 +8,7 @@ import groovy.xml.MarkupBuilder;
 public class Message {
 
   String emitter;
-  Date emission_moment;
+  String emission_moment;
   List<AttachmentRef> attachments
   String body
 
