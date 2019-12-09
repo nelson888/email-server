@@ -1,6 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.service;
 
-import com.serversquad.polytech.mailapp.mailapp.model.converter.JSDateConverter;
+import com.serversquad.polytech.mailapp.mailapp.model.converter.JSDateConverter
+import com.serversquad.polytech.mailapp.mailapp.model.mail.FrontEmail;
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ public class EmailParserTest {
     @Test
     public void test() {
         StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mailv2.xml").text)
+        FrontEmail frontEmail = storedEmail.toFrontEmail()
         println(emailParser.toString(storedEmail))
     }
 

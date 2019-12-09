@@ -55,8 +55,7 @@ public class EmailController {
      */
     @PostMapping("/{id}")
     public ResponseEntity getById(@PathVariable("id") int id) {
-        // TODO
-        return null;
+        return ResponseEntity.of(emailRepository.getById(id).map({ StoredEmail e -> e.toFrontEmail() }));
     }
 
 }
