@@ -6,6 +6,7 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType;
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Version
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Group
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.GroupParticipant
@@ -14,7 +15,7 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participa
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.SimpleParticipant
 import com.serversquad.polytech.mailapp.mailapp.model.mail.reference.AttachmentRef
 import groovy.util.slurpersupport.GPathResult
-import groovy.xml.XmlUtil;
+import groovy.xml.XmlUtil
 import org.springframework.stereotype.Component;
 
 import groovy.xml.MarkupBuilder
@@ -61,6 +62,7 @@ public class EmailParser {
 
     private static String getRawText(GPathResult node) {
         // TODO remove root tag
+        if (true) return  "TODO"
         String nodeName = node.name()
         String raw = XmlUtil.serialize(node).replace('<?xml version="1.0" encoding="UTF-8"?>' + "<$nodeName>", '')
         return raw
@@ -125,40 +127,60 @@ public class EmailParser {
     }
 
     private static Historic parseHistoric(GPathResult node) {
-        Historic historic = new Historic(messages: [])
+        Historic historic = new Historic(messages: [], attachments: [])
         node.children().each { GPathResult child ->
-            if (child.name() == "message") {
+            if (child.name() == "messages") {
                 historic.messages.add(parseMessage(child))
+            }
+            else if (child.name()=="attachments"){
+                historic.attachments.add(parseAttachment(child))
+
             }
         }
         return historic
     }
 
     private static Message parseMessage(GPathResult node) {
-        List<AttachmentRef> attachments = []
-        node.attachments.children().each { GPathResult child ->
-            if (child.name() == "attachment") {
-                attachments.add(parseAttachmentRef(child))
+        List<AttachmentRef> attachmentsref = []
+        node.children().each { GPathResult child ->
+            if (child.name() == "attachments") {
+                attachmentsref.add(parseAttachmentRef(child))
             }
         }
         return new Message(emitter: node['@emitter'],
-                emission_moment: node['@emission_moment'].toString() ? JSDateConverter.parse(node['@emission_moment']) : null,
-                attachments: attachments,
+                emission_moment: node['@emission_moment'],
+                attachments: attachmentsref,
                 body: getRawText(node.body))
     }
 
     private static Attachment parseAttachment(GPathResult node) {
+        List<Version> versions=parseVersions(node);
         new Attachment(
-                id: node['@id']?.toInteger() ?: 0,
+                id: node['@id'],
                 name: node['@name'],
-                size: node['@size']?.toInteger() ?: 0,
-                version: node['@version'],
+                mimeType: node['@mimetype'], versions: versions
+                /*version: node['@version'],
                 expirationDate: node['@creation_date'].toString() ? JSDateConverter.parse(node['@expirationDate']) : null,
-                data: node.text().bytes
+                data: node.text().bytes*/
         )
     }
 
     private static AttachmentRef parseAttachmentRef(GPathResult node) {
         return new AttachmentRef(id: node['@id'], version: node['@version'])
+    }
+
+    private static List<Version> parseVersions(GPathResult node) {
+        List<Version> versions = []
+        node.children().each { GPathResult child ->
+            versions.add(parseVersion(child))
+        }
+        return versions;
+    }
+
+
+        private static Version parseVersion(GPathResult node) {
+        return new Version(number: node['@number'].toInteger(), size: node['@size'].toInteger(), creator: node['@creator'], insertion_moment: node['@insertion_moment'])
+
+
     }
 }
