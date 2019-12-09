@@ -55,9 +55,9 @@
     </messages>
     <attachments>
       <attachment id="att-1" name="file_1" mimetype="text">
-        <version number="1" insertion_moment="2019-01-23T13:42:10" size="0" creator="participant.3"><!-- base64data --></version>
-        <version number="2" insertion_moment="2019-01-23T13:43:10" size="0" creator="participant.4"><!-- base64data --></version>
-        <version number="3" insertion_moment="2019-01-23T13:44:10" size="0" creator="participant.1"><!-- base64data --></version>
+        <version number="1" insertion_moment="2019-01-23T13:42:10" size="0" creator="participant.3">sqfdsf<!-- base64data --></version>
+        <version number="2" insertion_moment="2019-01-23T13:43:10" size="0" creator="participant.4">iuluil<!-- base64data --></version>
+        <version number="3" insertion_moment="2019-01-23T13:44:10" size="0" creator="participant.1">fdgdfg<!-- base64data --></version>
       </attachment>
     </attachments>
   </historic>
