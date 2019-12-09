@@ -10,7 +10,8 @@ public class JSDateConverter {
   private static final ThreadLocalDateFormat THREAD_LOCAL_DATE_FORMAT = new ThreadLocalDateFormat()
 
   public static Date parse(Object o) throws Exception {
-    return THREAD_LOCAL_DATE_FORMAT.get().parse(o.toString());
+//    return THREAD_LOCAL_DATE_FORMAT.get().parse(o.toString());
+    return new Date()
   }
 
   public static String format(Date date) throws Exception {

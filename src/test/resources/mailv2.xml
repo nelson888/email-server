@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xm-mail xmlns="polytech/app5/xm-mail/0.1.0" uuid="uuid_mailtoto" creation_moment="2019-01-23T13:42:10">
+  <object>Hello world!</object>
+  <participants>
+    <participant id="participant.1" name="toto"/>
+    <participant id="participant.2" name="tata"/>
+    <participant id="participant.3" name="titi"/>
+    <participant id="participant.4" name="tutu"/>
+  </participants>
+  <groups>
+    <group id="group.1" name="Bettwanze" can_write="false">
+      <member id="participant.2"/>
+    </group>
+    <group id="group.2" name="Kakerlaken">
+      <member id="participant.1"/>
+      <member id="participant.3"/>
+    </group>
+    <group id="group.3" name="ok">
+      <member id="participant.2"/>
+      <member id="participant.3"/>
+    </group>
+    <group id="group.4" name="ko">
+      <member id="participant.1"/>
+      <member id="participant.4"/>
+    </group>
+  </groups>
+  <historic>
+    <messages>
+      <message emission_moment="2019-01-23T13:42:10" emitter="participant.2">
+        <body>hello</body>
+        <attachments/>
+      </message>
+      <message emission_moment="2019-01-23T13:45:10" emitter="participant.4">
+        <body>add file_1</body>
+        <attachments>
+          <attachment_reference id="att-1"/> <!-- no version specified the last version of the file is used -->
+        </attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:48:10" emitter="participant.1">
+        <body>bla bla</body>
+        <attachments>
+          <attachment_reference id="att-1" version="LATEST"/>
+        </attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:59:10" emitter="participant.3">
+        <body>lab lba abl alb</body>
+        <attachments></attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:50:10" emitter="participant.2">
+        <body>new version of file_1</body>
+        <attachments>
+          <attachment_reference id="att-1" version="3"/>
+        </attachments>
+      </message>
+    </messages>
+    <attachments>
+      <attachment id="att-1" name="file_1" mimetype="text">
+        <version number="1" insertion_moment="2019-01-23T13:42:10" size="0" creator="participant.3"><!-- base64data --></version>
+        <version number="2" insertion_moment="2019-01-23T13:43:10" size="0" creator="participant.4"><!-- base64data --></version>
+        <version number="3" insertion_moment="2019-01-23T13:44:10" size="0" creator="participant.1"><!-- base64data --></version>
+      </attachment>
+    </attachments>
+  </historic>
+</xm-mail>

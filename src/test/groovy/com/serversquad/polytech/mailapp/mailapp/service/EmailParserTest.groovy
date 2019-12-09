@@ -12,7 +12,7 @@ public class EmailParserTest {
 
     @Test
     public void test() {
-        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml").text)
+        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mailv2.xml").text)
         println(emailParser.toString(storedEmail))
     }
 

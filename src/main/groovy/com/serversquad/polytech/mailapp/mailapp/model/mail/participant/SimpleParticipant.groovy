@@ -4,7 +4,8 @@ import groovy.xml.MarkupBuilder;
 
 public class SimpleParticipant extends Participant {
 
-  String email
+  String id
+  String name
 
   @Override
   boolean isSimple() {

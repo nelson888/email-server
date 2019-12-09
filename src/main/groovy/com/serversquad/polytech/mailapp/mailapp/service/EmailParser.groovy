@@ -7,9 +7,12 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Group
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.GroupParticipant
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.SimpleParticipant
+import com.serversquad.polytech.mailapp.mailapp.model.mail.reference.AttachmentRef
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.XmlUtil;
 import org.springframework.stereotype.Component;
@@ -28,10 +31,11 @@ public class EmailParser {
         def root = new XmlSlurper().parseText(s)
 
         def email = new StoredEmail()
-        email.id = root['@id']?.toInteger() ?: 0 // generate id?
+        email.uuid = root['@uuid'] // generate id?
         email.object = getRawText(root.object)
-        email.creationDate = JSDateConverter.parse(root.creationDate)
+        email.creationDate = JSDateConverter.parse(root['@creation_moment'])
         email.participants = parseParticipants(root.participants)
+        email.groups = parseGroups(root.groups)
         email.historic = parseHistoric(root.historic)
         return email
     }
@@ -63,21 +67,45 @@ public class EmailParser {
                 .replaceFirst("</$nodeName>", '').trim() // TODO replace last
     }
 
-    private static List<Participant> parseParticipants(GPathResult node) {
+    private static List<SimpleParticipant> parseParticipants(GPathResult node) {
         def participants = []
         node.children().each { GPathResult child ->
-            if (child.name() == "participant") {
-                participants.add(parseSimpleParticipant(child))
-            } else if (child.name() == "group") {
-                participants.add(parseGroupParticipant(child))
-            }
+            participants.add(parseSimpleParticipant(child))
         }
         return participants
     }
 
-    private static Participant parseSimpleParticipant(GPathResult child) {
-        return new SimpleParticipant(email: child.text(), type: parseType(child), priority: child['@priority']?.toInteger() ?: 0)
+    private static List<Group> parseGroups(GPathResult node) {
+        def groups = []
+        node.children().each { GPathResult child ->
+            groups.add(parseSimpleGroup(child))
+        }
+        return groups
     }
+
+    private static Group parseSimpleGroup(GPathResult child) {
+        return new Group(id: child['@id'], name: child['@name'], canWrite: child['@can_write']=='true',
+                members: parseMembers(child))
+    }
+    private static List<Member> parseMembers(GPathResult node) {
+        def members = []
+        node.children().each { GPathResult child ->
+            members.add(parseMember(child))
+        }
+        return members
+    }
+    private static Member parseMember(GPathResult child) {
+        return new Member(id: child['@id'])
+
+    }
+
+
+
+    private static Participant parseSimpleParticipant(GPathResult child) {
+        return new SimpleParticipant(id: child['@id'], name: child['@name'],
+                type: parseType(child), priority: child['@priority']?.toInteger() ?: 0)
+    }
+
 
     private static ParticipantType parseType(GPathResult child) {
         ParticipantType type = ParticipantType.NORMAL
@@ -107,14 +135,14 @@ public class EmailParser {
     }
 
     private static Message parseMessage(GPathResult node) {
-        List<Attachment> attachments = []
+        List<AttachmentRef> attachments = []
         node.attachments.children().each { GPathResult child ->
             if (child.name() == "attachment") {
-                attachments.add(parseAttachment(child))
+                attachments.add(parseAttachmentRef(child))
             }
         }
-        return new Message(expeditor: node['@expeditor'],
-                creationDate: node['@creation_date'].toString() ? JSDateConverter.parse(node['@creation_date']) : null,
+        return new Message(emitter: node['@emitter'],
+                emission_moment: node['@emission_moment'].toString() ? JSDateConverter.parse(node['@emission_moment']) : null,
                 attachments: attachments,
                 body: getRawText(node.body))
     }
@@ -128,5 +156,9 @@ public class EmailParser {
                 expirationDate: node['@creation_date'].toString() ? JSDateConverter.parse(node['@expirationDate']) : null,
                 data: node.text().bytes
         )
+    }
+
+    private static AttachmentRef parseAttachmentRef(GPathResult node) {
+        return new AttachmentRef(id: node['@id'], version: node['@version'])
     }
 }
