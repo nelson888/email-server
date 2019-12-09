@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<email id="0">
+  <object><brand company_url="bob.html">Hello kitty</brand> is the best !</object>
+  <creationDate>Fri Nov 22 2019 11:48:47 GMT+0100</creationDate>
+  <participants>
+    <participant priority="-1" type="cci">moi@fd.fr</participant>
+    <group priority="1" name="beau goss">
+      <participant priority="-1" type="cci">moi2@hotmail.fr</participant>
+      <participant type="cci">moi3@hotmail.fr</participant>
+      <participant type="cci">moi4@hotmail.fr</participant>
+    </group>
+    <participant>moi@fd.fr</participant>
+    <participant type="cc">modi@fd.fr</participant>
+  </participants>
+  <historic>
+    <message expeditor="houria96@hotmail.fr" creation_date="Fri Nov 22 2019 11:48:47 GMT+0100">
+      <body>
+        <salutation>Salut,</salutation>
+        <paragraphe>Ca va ?</paragraphe>
+        <politesse>A très bientôt,</politesse>
+        <signature>Houria</signature>
+      </body>
+      <attachments>
+        <attachment id="1" name="FichierXML" mimetype="text" size="23819" version="1.0" expirationDate="Fri Nov 22 2019 11:48:47 GMT+0100">
+          data : 02342342 : data <!-- binary data -->
+        </attachment>
+      </attachments>
+    </message>
+    <message>
+      <body>Je suis body</body>
+      <expeditor>quelqun@hotmail.fr</expeditor>
+      <attachments>
+        <attachment id="2" name="FichierXML" mimetype="text" size="23819" version="1.0" expirationDate="Fri Nov 12 2019 11:48:47 GMT+0100">
+          data : 0234234qjoza2 : data <!-- binary data -->
+        </attachment>
+      </attachments>
+    </message>
+  </historic>
+</email>
