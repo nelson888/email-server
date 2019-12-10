@@ -1,5 +1,6 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
@@ -11,6 +12,7 @@ class AttachmentVersion {
     Integer number
     Integer size
     String creator
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z", locale = 'en_US')
     String insertionMoment
     String content //base64
 

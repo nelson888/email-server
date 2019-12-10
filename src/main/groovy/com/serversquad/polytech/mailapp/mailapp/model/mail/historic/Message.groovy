@@ -1,5 +1,6 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail.historic
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
 import groovy.transform.EqualsAndHashCode
@@ -11,6 +12,7 @@ import groovy.xml.MarkupBuilder;
 public class Message {
 
   String emitter;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z", locale = 'en_US')
   Date emissionMoment;
   List<AttachmentRef> attachments
   String body
