@@ -53,7 +53,7 @@ public class EmailParser {
 
     private static String getRawText(GPathResult node) {
         // TODO remove root tag
-        if (true) return  "TODO"
+        if (true) return  node.text() // TODO handle raw content
         String nodeName = node.name()
         String raw = XmlUtil.serialize(node).replace('<?xml version="1.0" encoding="UTF-8"?>' + "<$nodeName>", '')
         return raw
