@@ -1,39 +1,64 @@
-<?xml version="1.0"?>
-<email id="0">
-  <object><brand company_url="bob.html">Hello kitty</brand> is the best !</object>
-  <creationDate>Fri Nov 22 2019 11:48:47 GMT+0100</creationDate>
+<?xml version="1.0" encoding="UTF-8"?>
+<xm-mail xmlns="polytech/app5/xm-mail/0.1.0" uuid="uuid_mailtoto" creation_moment="2019-01-23T13:42:10">
+  <object>Hello world!</object>
   <participants>
-    <participant priority="-1" type="cci">moi@fd.fr</participant>
-    <group priority="1" name="beau goss">
-      <participant priority="-1" type="cci">moi2@hotmail.fr</participant>
-      <participant type="cci">moi3@hotmail.fr</participant>
-      <participant type="cci">moi4@hotmail.fr</participant>
-    </group>
-    <participant>moi@fd.fr</participant>
-    <participant type="cc">modi@fd.fr</participant>
+    <participant id="participant.1" name="toto"/>
+    <participant id="participant.2" name="tata"/>
+    <participant id="participant.3" name="titi"/>
+    <participant id="participant.4" name="tutu"/>
   </participants>
+  <groups>
+    <group id="group.1" name="Bettwanze" can_write="false">
+      <member id="participant.2"/>
+    </group>
+    <group id="group.2" name="Kakerlaken">
+      <member id="participant.1"/>
+      <member id="participant.3"/>
+    </group>
+    <group id="group.3" name="ok">
+      <member id="participant.2"/>
+      <member id="participant.3"/>
+    </group>
+    <group id="group.4" name="ko">
+      <member id="participant.1"/>
+      <member id="participant.4"/>
+    </group>
+  </groups>
   <historic>
-    <message expeditor="houria96@hotmail.fr" creation_date="Fri Nov 22 2019 11:48:47 GMT+0100">
-      <body>
-        <salutation>Salut,</salutation>
-        <paragraphe>Ca va ?</paragraphe>
-        <politesse>A très bientôt,</politesse>
-        <signature>Houria</signature>
-      </body>
-      <attachments>
-        <attachment id="1" name="FichierXML" mimetype="text" size="23819" version="1.0" expirationDate="Fri Nov 22 2019 11:48:47 GMT+0100">
-          data : 02342342 : data <!-- binary data -->
-        </attachment>
-      </attachments>
-    </message>
-    <message>
-      <body>Je suis body</body>
-      <expeditor>quelqun@hotmail.fr</expeditor>
-      <attachments>
-        <attachment id="2" name="FichierXML" mimetype="text" size="23819" version="1.0" expirationDate="Fri Nov 12 2019 11:48:47 GMT+0100">
-          data : 0234234qjoza2 : data <!-- binary data -->
-        </attachment>
-      </attachments>
-    </message>
+    <messages>
+      <message emission_moment="2019-01-23T13:42:10" emitter="participant.2">
+        <body>hello</body>
+        <attachments/>
+      </message>
+      <message emission_moment="2019-01-23T13:45:10" emitter="participant.4">
+        <body>add file_1</body>
+        <attachments>
+          <attachment_reference id="att-1"/> <!-- no version specified the last version of the file is used -->
+        </attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:48:10" emitter="participant.1">
+        <body>bla bla</body>
+        <attachments>
+          <attachment_reference id="att-1" version="LATEST"/>
+        </attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:59:10" emitter="participant.3">
+        <body>lab lba abl alb</body>
+        <attachments></attachments>
+      </message>
+      <message emission_moment="2019-01-23T13:50:10" emitter="participant.2">
+        <body>new version of file_1</body>
+        <attachments>
+          <attachment_reference id="att-1" version="3"/>
+        </attachments>
+      </message>
+    </messages>
+    <attachments>
+      <attachment id="att-1" name="file_1" mimetype="text">
+        <version number="1" insertion_moment="2019-01-23T13:42:10" size="0" creator="participant.3">sqfdsf<!-- base64data --></version>
+        <version number="2" insertion_moment="2019-01-23T13:43:10" size="0" creator="participant.4">iuluil<!-- base64data --></version>
+        <version number="3" insertion_moment="2019-01-23T13:44:10" size="0" creator="participant.1">fdgdfg<!-- base64data --></version>
+      </attachment>
+    </attachments>
   </historic>
-</email>
+</xm-mail>

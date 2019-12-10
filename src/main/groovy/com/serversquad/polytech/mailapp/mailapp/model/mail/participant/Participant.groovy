@@ -2,25 +2,19 @@ package com.serversquad.polytech.mailapp.mailapp.model.mail.participant
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType
 import groovy.transform.EqualsAndHashCode
-import groovy.xml.MarkupBuilder
+import groovy.transform.ToString
+import groovy.xml.MarkupBuilder;
 
+@ToString(includePackage = false, includeFields = true, includeNames = true)
 @EqualsAndHashCode
-abstract class Participant {
+public class Participant {
 
-    ParticipantType type = ParticipantType.NORMAL;
-    Integer priority = 0
+  ParticipantType type //= ParticipantType.NORMAL;
+  Integer priority //= 0
+  String id
+  String name
 
-    abstract boolean isSimple()
-    abstract boolean isGroup()
-    abstract void writeXml(MarkupBuilder builder)
-
-    GroupParticipant asGroup() {
-        return GroupParticipant.cast(this)
-    }
-
-    SimpleParticipant asSimple() {
-        return SimpleParticipant.cast(this)
-    }
-
-
+  void writeXml(MarkupBuilder xml) {
+    xml.participant(type: type.toString().toLowerCase(), priority: priority, id: id, name: name)
+  }
 }

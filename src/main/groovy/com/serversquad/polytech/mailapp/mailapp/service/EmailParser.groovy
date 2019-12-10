@@ -1,7 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.service
 
 
-import com.serversquad.polytech.mailapp.mailapp.model.converter.JSDateConverter
+import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
 import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType;
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
@@ -9,10 +9,8 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentVersion
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Group
-import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.GroupParticipant
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
-import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.SimpleParticipant
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.XmlUtil
@@ -34,7 +32,7 @@ public class EmailParser {
         def email = new StoredEmail()
         email.uuid = root['@uuid'] // generate id?
         email.object = getRawText(root.object)
-        email.creationDate = JSDateConverter.parse(root['@creation_moment'])
+        email.creationDate = XSDateConverter.parse(root['@creation_moment'])
         email.participants = parseParticipants(root.participants)
         email.groups = parseGroups(root.groups)
         email.historic = parseHistoric(root.historic)
@@ -47,14 +45,7 @@ public class EmailParser {
         xml.omitNullAttributes = true
         xml.omitEmptyAttributes = true
         xml.expandEmptyElements = true
-        xml.email {
-            object(email.object)
-            creationDate(JSDateConverter.format(email.creationDate))
-            participants() {
-                email.participants.each( { Participant p -> p.writeXml(xml)})
-            }
-            email.historic.writeXml(xml)
-        }
+        email.writeXml(xml)
         return writer.toString()
                 .replaceAll('&lt;', '<')// TODO change find something else
                 .replaceAll('&gt;', '>')
@@ -69,26 +60,19 @@ public class EmailParser {
                 .replaceFirst("</$nodeName>", '').trim() // TODO replace last
     }
 
-    private static List<SimpleParticipant> parseParticipants(GPathResult node) {
-        def participants = []
-        node.children().each { GPathResult child ->
-            participants.add(parseSimpleParticipant(child))
-        }
-        return participants
+    private static List<Participant> parseParticipants(GPathResult node) {
+        return node.children().collect(EmailParser.&parseParticipant).toList()
     }
 
     private static List<Group> parseGroups(GPathResult node) {
-        def groups = []
-        node.children().each { GPathResult child ->
-            groups.add(parseSimpleGroup(child))
-        }
-        return groups
+        return node.children().collect(EmailParser.&parseGroup).toList()
     }
 
-    private static Group parseSimpleGroup(GPathResult child) {
+    private static Group parseGroup(GPathResult child) {
         return new Group(id: child['@id'], name: child['@name'], canWrite: child['@can_write']=='true',
                 members: parseMembers(child))
     }
+
     private static List<Member> parseMembers(GPathResult node) {
         def members = []
         node.children().each { GPathResult child ->
@@ -103,8 +87,8 @@ public class EmailParser {
 
 
 
-    private static Participant parseSimpleParticipant(GPathResult child) {
-        return new SimpleParticipant(id: child['@id'], name: child['@name'],
+    private static Participant parseParticipant(GPathResult child) {
+        return new Participant(id: child['@id'], name: child['@name'],
                 type: parseType(child), priority: child['@priority']?.toInteger() ?: 0)
     }
 
@@ -120,19 +104,13 @@ public class EmailParser {
         return type
     }
 
-    private static Participant parseGroupParticipant(GPathResult child) {
-        return new GroupParticipant(name: child['@name'], type: parseType(child),
-                priority: child['@priority']?.toInteger() ?: 0,
-                participants: parseParticipants(child))
-    }
-
     private static Historic parseHistoric(GPathResult node) {
         return new Historic(messages: parseMessages(node.messages), attachments: parseAttachments(node.attachments))
     }
 
     private static List<Message> parseMessages(GPathResult node) {
         return node.children().collect { GPathResult child ->
-            new Message(emitter: child['@emitter'], emissionMoment: JSDateConverter.parse(child['@emission_moment']),
+            new Message(emitter: child['@emitter'], emissionMoment: XSDateConverter.parse(child['@emission_moment']),
             body: getRawText(child.body),
             attachments: parseAttachmentRefs(child.attachments))
         }.toList()
@@ -172,6 +150,6 @@ public class EmailParser {
                 size: node['@size']?.toInteger() ?: 0,
                 creator: node['@creator'],
                 content: node.toString(),
-                insertion_moment: node['@insertion_moment'])
+                insertionMoment: node['@insertion_moment'])
     }
 }

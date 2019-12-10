@@ -1,6 +1,6 @@
 package com.serversquad.polytech.mailapp.mailapp.service;
 
-import com.serversquad.polytech.mailapp.mailapp.model.converter.JSDateConverter
+import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
 import com.serversquad.polytech.mailapp.mailapp.model.mail.FrontEmail;
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import org.junit.Test;
@@ -13,7 +13,7 @@ public class EmailParserTest {
 
     @Test
     public void test() {
-        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mailv2.xml").text)
+        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml").text)
         FrontEmail frontEmail = storedEmail.toFrontEmail()
         println(emailParser.toString(storedEmail))
     }
@@ -21,7 +21,7 @@ public class EmailParserTest {
     @Test
     public void parseTest() throws Exception {
         StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml").text);
-        assertEquals("Fri Nov 22 2019 11:48:47 GMT+0100", new JSDateConverter().format(storedEmail.getCreationDate()));
+        assertEquals("2019-01-23T13:42:10", new XSDateConverter().format(storedEmail.getCreationDate()));
 
         StoredEmail reparsedEmail = emailParser.parseEmail(emailParser.toString(storedEmail))
         assertEquals(storedEmail, reparsedEmail)
