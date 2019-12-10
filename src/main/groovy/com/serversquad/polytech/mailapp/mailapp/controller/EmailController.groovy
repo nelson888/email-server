@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/emails")
 @Api(value = "Controller to manipulates emails")
 class EmailController {
 
