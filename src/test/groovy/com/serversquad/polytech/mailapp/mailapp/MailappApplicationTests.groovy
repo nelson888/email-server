@@ -12,24 +12,24 @@ import static org.junit.Assert.assertNotNull
 
 @SpringBootTest
 class MailappApplicationTests {
-	@Autowired
-	private EmailRepository emailRepository;
+    @Autowired
+    private EmailRepository emailRepository
 
-	private final EmailParser emailParser = new EmailParser();
+    private final EmailParser emailParser = new EmailParser()
 
-	@Test
-	void contextLoads() { }
+    @Test
+    void contextLoads() {}
 
-	@Test
-	public void storeEmail() throws Exception {
-		StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml"));
-		emailRepository.saveEmail(storedEmail);
-	}
+    @Test
+    void storeEmail() throws Exception {
+        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml"))
+        emailRepository.saveEmail(storedEmail)
+    }
 
-	@Test
-	public void getEmail() throws Exception {
-		StoredEmail storedEmail = emailRepository.getById(0).get();
-		assertNotNull(storedEmail);
-	}
+    @Test
+    void getEmail() throws Exception {
+        StoredEmail storedEmail = emailRepository.getById(0).get()
+        assertNotNull(storedEmail)
+    }
 
 }

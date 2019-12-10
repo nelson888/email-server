@@ -1,32 +1,30 @@
 package com.serversquad.polytech.mailapp.mailapp.service
 
-
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
-import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType;
+import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentVersion
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentVersion
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Group
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
 import groovy.util.slurpersupport.GPathResult
-import groovy.xml.XmlUtil
-import org.springframework.stereotype.Component;
-
 import groovy.xml.MarkupBuilder
+import groovy.xml.XmlUtil
+import org.springframework.stereotype.Component
 
 // for mixed content see https://kodejava.org/how-do-i-get-mixed-content-of-an-xml-element/
 @Component
-public class EmailParser {
+class EmailParser {
 
-    public StoredEmail parseEmail(byte[] bytes) {
+    StoredEmail parseEmail(byte[] bytes) {
         return parseEmail(new String(bytes))
     }
 
-    public StoredEmail parseEmail(String s) {
+    StoredEmail parseEmail(String s) {
         def root = new XmlSlurper().parseText(s)
 
         def email = new StoredEmail()
@@ -53,7 +51,7 @@ public class EmailParser {
 
     private static String getRawText(GPathResult node) {
         // TODO remove root tag
-        if (true) return  node.text() // TODO handle raw content
+        if (true) return node.text() // TODO handle raw content
         String nodeName = node.name()
         String raw = XmlUtil.serialize(node).replace('<?xml version="1.0" encoding="UTF-8"?>' + "<$nodeName>", '')
         return raw
@@ -69,7 +67,7 @@ public class EmailParser {
     }
 
     private static Group parseGroup(GPathResult child) {
-        return new Group(id: child['@id'], name: child['@name'], canWrite: child['@can_write']=='true',
+        return new Group(id: child['@id'], name: child['@name'], canWrite: child['@can_write'] == 'true',
                 members: parseMembers(child))
     }
 
@@ -80,11 +78,11 @@ public class EmailParser {
         }
         return members
     }
+
     private static Member parseMember(GPathResult child) {
         return new Member(id: child['@id'])
 
     }
-
 
 
     private static Participant parseParticipant(GPathResult child) {
@@ -99,7 +97,8 @@ public class EmailParser {
         if (typeAttr) {
             try {
                 type = ParticipantType.valueOf(typeAttr.toUpperCase())
-            } catch (IllegalArgumentException ignored) {}
+            } catch (IllegalArgumentException ignored) {
+            }
         }
         return type
     }
@@ -111,8 +110,8 @@ public class EmailParser {
     private static List<Message> parseMessages(GPathResult node) {
         return node.children().collect { GPathResult child ->
             new Message(emitter: child['@emitter'], emissionMoment: XSDateConverter.parse(child['@emission_moment']),
-            body: getRawText(child.body),
-            attachments: parseAttachmentRefs(child.attachments))
+                    body: getRawText(child.body),
+                    attachments: parseAttachmentRefs(child.attachments))
         }.toList()
     }
 
@@ -125,7 +124,7 @@ public class EmailParser {
     }
 
     private static Attachment parseAttachment(GPathResult node) {
-        List<AttachmentVersion> versions=parseVersions(node);
+        List<AttachmentVersion> versions = parseVersions(node)
         new Attachment(
                 id: node['@id'],
                 name: node['@name'],

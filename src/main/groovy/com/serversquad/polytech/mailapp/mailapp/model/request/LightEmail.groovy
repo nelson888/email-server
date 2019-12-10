@@ -1,4 +1,4 @@
-package com.serversquad.polytech.mailapp.mailapp.model.request;
+package com.serversquad.polytech.mailapp.mailapp.model.request
 
-public class LightEmail {
+class LightEmail {
 }

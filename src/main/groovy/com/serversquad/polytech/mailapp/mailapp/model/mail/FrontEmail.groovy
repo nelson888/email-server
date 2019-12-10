@@ -1,7 +1,6 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail
 
 import com.fasterxml.jackson.annotation.JsonFormat
-
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.FrontGroup
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant

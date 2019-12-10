@@ -1,10 +1,10 @@
-package com.serversquad.polytech.mailapp.mailapp.model.response;
+package com.serversquad.polytech.mailapp.mailapp.model.response
 
-public class ErrorResponse {
+class ErrorResponse {
 
-  String error;
-  String message;
-  String timestamp;
-  String path;
+    String error
+    String message
+    String timestamp
+    String path
 
 }

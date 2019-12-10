@@ -1,5 +1,5 @@
-package com.serversquad.polytech.mailapp.mailapp.model.mail;
+package com.serversquad.polytech.mailapp.mailapp.model.mail
 
-public enum ParticipantType {
+enum ParticipantType {
     NORMAL, CC, CCI
 }

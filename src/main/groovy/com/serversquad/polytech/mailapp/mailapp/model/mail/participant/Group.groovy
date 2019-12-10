@@ -14,7 +14,7 @@ class Group {
 
     void writeXml(MarkupBuilder xml) {
         xml.group(id: id, name: name, can_write: canWrite) {
-            members.each {Member m -> m.writeXml(xml)}
+            members.each { Member m -> m.writeXml(xml) }
         }
     }
 }

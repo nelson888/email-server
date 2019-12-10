@@ -1,13 +1,13 @@
-package com.serversquad.polytech.mailapp.mailapp.service;
+package com.serversquad.polytech.mailapp.mailapp.service
 
-import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail;
-import org.springframework.stereotype.Service;
+import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
+import org.springframework.stereotype.Service
 
 @Service
-public class EmailSender {
+class EmailSender {
 
-  public void send(StoredEmail email) {
-    // TODO
-  }
+    void send(StoredEmail email) {
+        // TODO
+    }
 
 }
