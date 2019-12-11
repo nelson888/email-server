@@ -8,12 +8,11 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentVersion
-import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Group
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.MarkupBuilder
-import groovy.xml.XmlUtil
 import org.springframework.stereotype.Component
 
 // for mixed content see https://kodejava.org/how-do-i-get-mixed-content-of-an-xml-element/
@@ -45,29 +44,22 @@ class EmailParser {
         xml.expandEmptyElements = true
         email.writeXml(xml)
         return writer.toString()
-                .replaceAll('&lt;', '<')// TODO change find something else
-                .replaceAll('&gt;', '>')
     }
 
     private static String getRawText(GPathResult node) {
-        // TODO remove root tag
-        if (true) return node.text() // TODO handle raw content
-        String nodeName = node.name()
-        String raw = XmlUtil.serialize(node).replace('<?xml version="1.0" encoding="UTF-8"?>' + "<$nodeName>", '')
-        return raw
-                .replaceFirst("</$nodeName>", '').trim() // TODO replace last
+        return node.text() // the body will be in another file
     }
 
     private static List<Participant> parseParticipants(GPathResult node) {
         return node.children().collect(EmailParser.&parseParticipant).toList()
     }
 
-    private static List<Group> parseGroups(GPathResult node) {
+    private static List<StoredGroup> parseGroups(GPathResult node) {
         return node.children().collect(EmailParser.&parseGroup).toList()
     }
 
-    private static Group parseGroup(GPathResult child) {
-        return new Group(id: child['@id'], name: child['@name'], canWrite: child['@can_write'] == 'true',
+    private static StoredGroup parseGroup(GPathResult child) {
+        return new StoredGroup(id: child['@id'], name: child['@name'], canWrite: child['@can_write'] == 'true',
                 members: parseMembers(child))
     }
 
@@ -81,7 +73,6 @@ class EmailParser {
 
     private static Member parseMember(GPathResult child) {
         return new Member(id: child['@id'])
-
     }
 
 

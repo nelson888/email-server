@@ -12,10 +12,11 @@ class EmailParserTest {
     private final EmailParser emailParser = new EmailParser()
 
     @Test
-    void test() {
+    void testConversion() {
         StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml").text)
         FrontEmail frontEmail = storedEmail.toFrontEmail()
-        println(emailParser.toString(storedEmail))
+        StoredEmail storedEmail2 = frontEmail.toStoredEmail()
+        assertEquals(storedEmail, storedEmail2)
     }
 
     @Test

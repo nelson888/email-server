@@ -16,8 +16,8 @@ class FirebaseEmailRepository implements EmailRepository {
 
     @Override
     StoredEmail saveEmail(StoredEmail email) throws IOException {
-        if (email.getId() == null) {
-            email.setId(idGenerator.getAndIncrement())
+        if (email.uuid == null) {
+            email.uuid = UUID.randomUUID().toString()
         }
         return emailStorage.save(email)
     }
@@ -43,7 +43,8 @@ class FirebaseEmailRepository implements EmailRepository {
     List<StoredEmail> getAllByParticipant(String email) {
         //TODO get All emails with getAll function:
         // then filter to keep only emails that has the given email in
-        // one of the participants (see StoredEmail.getAllParticipants())
+        // one of the participants (see StoredEmail.participants)
+        // Participant.id correspond to the email
         return null
     }
 }

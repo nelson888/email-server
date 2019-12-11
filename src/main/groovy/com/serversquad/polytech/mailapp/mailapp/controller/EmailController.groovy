@@ -1,7 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.controller
 
+import com.serversquad.polytech.mailapp.mailapp.model.mail.FrontEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
-import com.serversquad.polytech.mailapp.mailapp.model.request.SaveRequest
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.service.EmailSender
 import io.swagger.annotations.Api
@@ -29,15 +29,9 @@ class EmailController {
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully saved the email")
     ])
-    ResponseEntity saveEmail(@RequestBody SaveRequest request) throws IOException {
-        emailRepository.saveEmail(toStoredEmail(request))
+    ResponseEntity saveEmail(@RequestBody FrontEmail email) throws IOException {
+        emailRepository.saveEmail(email.toStoredEmail())
         return ResponseEntity.ok().build()
-    }
-
-    private StoredEmail toStoredEmail(SaveRequest saveRequest) {
-        StoredEmail email = new StoredEmail()
-        // TODO
-        return email
     }
 
     /**
