@@ -4,7 +4,3 @@ logging.level:
 firebase:
   storage.bucket: mail-app-d09e7.appspot.com
   database.url: https://mail-app-d09e7.firebaseio.com
-
-server:
-  port: ${PORT:9000}
-  address: 0.0.0.0

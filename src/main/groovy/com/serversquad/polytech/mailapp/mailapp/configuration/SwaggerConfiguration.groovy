@@ -14,10 +14,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
  * Configuration for swagger
  * doc url: http://localhost:8080/swagger-ui.html
  */
+/*
 @Configuration
-@EnableSwagger2
+@EnableSwagger2*/
 class SwaggerConfiguration {
-
+/*
     @Bean
     ApiInfo info() {
         return new ApiInfo(
@@ -38,5 +39,5 @@ class SwaggerConfiguration {
                 .build()
                 .apiInfo(info)
     }
-
+*/
 }
