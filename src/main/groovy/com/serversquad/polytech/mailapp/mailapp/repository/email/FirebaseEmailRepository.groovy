@@ -33,14 +33,18 @@ class FirebaseEmailRepository implements EmailRepository {
     }
 
     @Override
-    List<StoredEmail> getAllByExpeditor(String expeditor) {
+    List<StoredEmail> getAllByExpeditor(String emittor) {
+        List<StoredEmail> emails = []
+        for (StoredEmail email : getAll()) {
+
+        }
         //TODO get All emails with getAll function:
         // then filter to keep only emails with the given expeditor
-        return null
+        return emails
     }
 
     @Override
-    List<StoredEmail> getAllByParticipant(String email) {
+    List<StoredEmail> getAllByParticipant(String id) {
         //TODO get All emails with getAll function:
         // then filter to keep only emails that has the given email in
         // one of the participants (see StoredEmail.participants)

@@ -17,4 +17,13 @@ class Email<G> {
     List<Participant> participants
     List<G> groups
     Historic historic
+
+
+    String getExpeditor() {
+        //TODO
+        //parcourir tout les messages
+        // trouver le message avec la date la plus recente
+        // retourne message.emitter
+        null
+    }
 }
