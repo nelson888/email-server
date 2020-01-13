@@ -10,6 +10,10 @@ class Member {
 
     String id
 
+    Member(String id) {
+        this.id = id
+    }
+
     void writeXml(MarkupBuilder xml) {
         xml.member(id: id)
     }
