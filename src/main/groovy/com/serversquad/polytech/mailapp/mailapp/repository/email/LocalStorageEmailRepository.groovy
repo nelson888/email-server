@@ -16,6 +16,7 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
     private String rootOutPath
     private final File rootIn
     private final File rootOut
+
     LocalStorageEmailRepository(EmailParser emailParser) {
         this.emailParser = emailParser
         rootIn = new File(rootInPath)
