@@ -1,6 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.repository.email
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.storage.EmailStorage
 
 import java.util.concurrent.atomic.AtomicInteger
@@ -36,10 +37,14 @@ class FirebaseEmailRepository implements EmailRepository {
     List<StoredEmail> getAllByExpeditor(String emittor) {
         List<StoredEmail> emails = []
         for (StoredEmail email : getAll()) {
+            if(email.getExpeditor()==emittor){
+                emails.add(email);
+            }
 
         }
         //TODO get All emails with getAll function:
         // then filter to keep only emails with the given expeditor
+
         return emails
     }
 
@@ -49,6 +54,16 @@ class FirebaseEmailRepository implements EmailRepository {
         // then filter to keep only emails that has the given email in
         // one of the participants (see StoredEmail.participants)
         // Participant.id correspond to the email
+
+        List<StoredEmail> emails = []
+        for (StoredEmail email : getAll()) {
+            for (Participant participant : email.participants){
+                if(participant.id==id){
+                    emails.add(email);
+
+                }
+            }
+        }
         return null
     }
 }

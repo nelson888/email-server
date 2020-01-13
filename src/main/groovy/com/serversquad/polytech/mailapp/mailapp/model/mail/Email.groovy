@@ -32,6 +32,7 @@ class Email<G> {
         messages.sort {
             it.emissionMoment.getTime()
         }
+        return (messages.get(0).emitter);
 
     }
 }
