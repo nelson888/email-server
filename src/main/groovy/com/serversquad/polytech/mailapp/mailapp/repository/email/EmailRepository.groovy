@@ -24,6 +24,14 @@ interface EmailRepository {
      */
     Optional<StoredEmail> getById(int id);
 
+
+    /**
+     * Retrieve the email with the given UUID if it exists
+     * @param id the id of the email
+     * @return an Optional containing the email with the given id, if it exists
+     */
+    Optional<StoredEmail> getByUUID(String uuid);
+
     /**
      * Retrieve all emails with the given expeditor
      * @param expeditor the expeditor of the email

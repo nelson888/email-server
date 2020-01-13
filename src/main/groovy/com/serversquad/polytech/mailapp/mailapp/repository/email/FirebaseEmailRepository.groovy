@@ -34,33 +34,28 @@ class FirebaseEmailRepository implements EmailRepository {
     }
 
     @Override
+    Optional<StoredEmail> getByUUID(String uuid) {
+        return Optional.ofNullable(emailStorage.getAll().find { it.uuid == uuid })
+    }
+
+    @Override
     List<StoredEmail> getAllByExpeditor(String emittor) {
         List<StoredEmail> emails = []
         for (StoredEmail email : getAll()) {
             if(email.getExpeditor()==emittor){
                 emails.add(email);
             }
-
         }
-        //TODO get All emails with getAll function:
-        // then filter to keep only emails with the given expeditor
-
         return emails
     }
 
     @Override
     List<StoredEmail> getAllByParticipant(String id) {
-        //TODO get All emails with getAll function:
-        // then filter to keep only emails that has the given email in
-        // one of the participants (see StoredEmail.participants)
-        // Participant.id correspond to the email
-
         List<StoredEmail> emails = []
         for (StoredEmail email : getAll()) {
             for (Participant participant : email.participants){
                 if(participant.id==id){
-                    emails.add(email);
-
+                    emails.add(email)
                 }
             }
         }
