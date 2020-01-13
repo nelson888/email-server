@@ -50,7 +50,7 @@ class FirebaseEmailRepository implements EmailRepository {
     }
 
     @Override
-    List<StoredEmail> getAllByParticipant(String id) {
+    List<StoredEmail> getAllByParticipantId(String id) {
         List<StoredEmail> emails = []
         for (StoredEmail email : getAll()) {
             for (Participant participant : email.participants){
@@ -59,6 +59,19 @@ class FirebaseEmailRepository implements EmailRepository {
                 }
             }
         }
-        return null
+        return emails
+    }
+
+    @Override
+    List<StoredEmail> getAllByParticipantName(String name) {
+        List<StoredEmail> emails = []
+        for (StoredEmail email : getAll()) {
+            for (Participant participant : email.participants){
+                if(participant.name==name){
+                    emails.add(email)
+                }
+            }
+        }
+        return emails
     }
 }

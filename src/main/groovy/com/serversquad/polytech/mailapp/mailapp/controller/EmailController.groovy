@@ -61,7 +61,12 @@ class EmailController {
     }
     @PostMapping("/byParticipant/{participant}")
     ResponseEntity getByParticipant(@PathVariable("participant") String participant) {
-        return ResponseEntity.ok(emailRepository.getAllByParticipant(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
+    }
+
+    @PostMapping("/byParticipantName/{name}")
+    ResponseEntity getByParticipantName(@PathVariable("name") String name) {
+        return ResponseEntity.ok(emailRepository.getAllByParticipantName(name).collect({ StoredEmail e -> e.toFrontEmail() }))
     }
 
     /**
