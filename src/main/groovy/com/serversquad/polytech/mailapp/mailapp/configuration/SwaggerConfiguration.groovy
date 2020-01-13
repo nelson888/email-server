@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
  * doc url: http://localhost:8080/swagger-ui.html
  */
 
-@Profile("swagger-enabled")
+@Profile("swagger")
 @Configuration
 @EnableSwagger2
 class SwaggerConfiguration {
