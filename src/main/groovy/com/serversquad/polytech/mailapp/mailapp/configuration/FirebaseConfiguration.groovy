@@ -7,6 +7,9 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.cloud.StorageClient
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.FirebaseEmailRepository
+import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
+import com.serversquad.polytech.mailapp.mailapp.repository.email.body.FirebaseBodyRepository
+import com.serversquad.polytech.mailapp.mailapp.storage.FirebaseBodyStorage
 import com.serversquad.polytech.mailapp.mailapp.storage.FirebaseEmailStorage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -46,6 +49,11 @@ class FirebaseConfiguration {
     @Bean
     EmailRepository emailRepository(FirebaseEmailStorage emailStorage) {
         return new FirebaseEmailRepository(emailStorage)
+    }
+
+    @Bean
+    BodyRepository bodyRepository(FirebaseBodyStorage bodyStorage) {
+        return new FirebaseBodyRepository(bodyStorage)
     }
 
 }

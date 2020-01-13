@@ -6,6 +6,7 @@ class SaveMailRequest {
     String emitter
     String body
     String object
+    String bodyFormat
     List<String> participants
     List<String> groups
     List<String> attachments // ignored

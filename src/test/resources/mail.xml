@@ -27,27 +27,27 @@
   <historic>
     <messages>
       <message emission_moment="2019-01-23T13:42:10" emitter="participant.2">
-        <body>hello</body>
+        <body format="https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd" id="xmmessage_7557c638-bcc3-4378-8124-3ac2564d5959"/>
         <attachments/>
       </message>
       <message emission_moment="2019-01-23T13:45:10" emitter="participant.4">
-        <body>add file_1</body>
+        <body format="https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd" id="xmmessage_7557c638-bcc3-4378-8124-3ac2564d5960"/>
         <attachments>
           <attachment_reference id="att-1"/> <!-- no version specified the last version of the file is used -->
         </attachments>
       </message>
       <message emission_moment="2019-01-23T13:48:10" emitter="participant.1">
-        <body>bla bla</body>
+        <body format="https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd" id="xmmessage_7557c638-bcc3-4378-8124-3ac2564d5961"/>
         <attachments>
           <attachment_reference id="att-1" version="LATEST"/>
         </attachments>
       </message>
       <message emission_moment="2019-01-23T13:59:10" emitter="participant.3">
-        <body>lab lba abl alb</body>
+        <body format="https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd" id="xmmessage_7557c638-bcc3-4378-8124-3ac2564d5962"/>
         <attachments></attachments>
       </message>
       <message emission_moment="2019-01-23T13:50:10" emitter="participant.2">
-        <body>new version of file_1</body>
+        <body format="https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd" id="xmmessage_7557c638-bcc3-4378-8124-3ac2564d5963"/>
         <attachments>
           <attachment_reference id="att-1" version="3"/>
         </attachments>

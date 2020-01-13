@@ -8,7 +8,7 @@ import groovy.util.logging.Slf4j
 import java.util.stream.Collectors
 
 @Slf4j('LOGGER')
-abstract class FirebaseStorage<T> {
+abstract class FirebaseStorage<T, Id> {
 
     private final String prefixPath
     protected final FirebaseStorageService storageService
@@ -20,9 +20,10 @@ abstract class FirebaseStorage<T> {
         this.emailParser = emailParser
     }
 
-    Optional<T> getById(int id) {
+    Optional<T> getById(Id id) {
+        final String prefixPath = prefixPath // apparently avoid crashing
         try {
-            Blob blob = storageService.get(prefix, id + ".xml")
+            Blob blob = storageService.get(prefixPath, fileNameForId(id))
             return Optional.ofNullable(blob)
                     .map(this.&parse)
         } catch (IOException e) {
@@ -41,4 +42,5 @@ abstract class FirebaseStorage<T> {
 
     abstract T save(T object)
     protected abstract T parse(Blob blob)
+    protected abstract String fileNameForId(Id id)
 }

@@ -1,10 +1,11 @@
 package com.serversquad.polytech.mailapp.mailapp.service
 
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
+import com.serversquad.polytech.mailapp.mailapp.model.mail.BodyRef
 import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentVersion
@@ -101,12 +102,16 @@ class EmailParser {
         return new Historic(messages: parseMessages(node.messages), attachments: parseAttachments(node.attachments))
     }
 
-    private static List<Message> parseMessages(GPathResult node) {
+    private static List<StoredMessage> parseMessages(GPathResult node) {
         return node.children().collect { GPathResult child ->
-            new Message(emitter: child['@emitter'], emissionMoment: XSDateConverter.parse(child['@emission_moment']),
-                    body: getRawText(child.body),
+            new StoredMessage(emitter: child['@emitter'], emissionMoment: XSDateConverter.parse(child['@emission_moment']),
+                    bodyRef: parseBodyRef(child['body']),
                     attachments: parseAttachmentRefs(child.attachments))
         }.toList()
+    }
+
+    private static BodyRef parseBodyRef(GPathResult node) {
+        return new BodyRef(format: node['@format'], id: node['@id'])
     }
 
     private static List<Attachment> parseAttachments(GPathResult node) {

@@ -1,10 +1,14 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail
 
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.FrontMessage
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.FrontGroup
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
+import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
@@ -26,7 +30,7 @@ class StoredEmail extends Email<StoredGroup> {
         }
     }
 
-    FrontEmail toFrontEmail() {
+    FrontEmail toFrontEmail(BodyRepository bodyRepository) {
         List<FrontGroup> groups = groups.collect { StoredGroup group ->
             FrontGroup frontGroup = new FrontGroup(id: group.id, name: group.name, canWrite: group.canWrite)
             frontGroup.members = group.members.collect { Member member ->
@@ -34,8 +38,18 @@ class StoredEmail extends Email<StoredGroup> {
             }.toList()
             return frontGroup
         }.toList()
-        return new FrontEmail(uuid: uuid, object: object, creationDate: creationDate,
-                participants: participants,
+        Historic historic = new Historic(attachments: this.historic.attachments.collect())
+        historic.messages = this.historic.messages.collect {
+            StoredMessage message = (StoredMessage) it
+            return new FrontMessage(
+                    emitter: message.emitter,
+                    emissionMoment: new Date(message.emissionMoment.time),
+                    attachments: message.attachments.collect(),
+                    body: bodyRepository.getById(message.bodyRef.id))
+        }
+
+        return new FrontEmail(uuid: uuid, object: object, creationDate: new Date(creationDate.time),
+                participants: participants.collect(),
                 groups: groups, historic: historic)
     }
 

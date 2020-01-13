@@ -22,7 +22,7 @@ class MailappApplicationTests {
 
     @Test
     void storeEmail() throws Exception {
-        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml"))
+        StoredEmail storedEmail = emailParser.parseEmail(EmailParserTest.class.getResourceAsStream("/mail.xml").bytes)
         emailRepository.saveEmail(storedEmail)
     }
 

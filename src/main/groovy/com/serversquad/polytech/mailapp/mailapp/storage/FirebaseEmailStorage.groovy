@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 @Profile("firebase")
 @Component
-class FirebaseEmailStorage extends FirebaseStorage<StoredEmail> {
+class FirebaseEmailStorage extends FirebaseStorage<StoredEmail, Integer> {
 
     private static final String PREFIX = "emails"
 
@@ -27,4 +27,10 @@ class FirebaseEmailStorage extends FirebaseStorage<StoredEmail> {
     protected StoredEmail parse(Blob blob) {
         return emailParser.parseEmail(blob.getContent())
     }
+
+    @Override
+    protected String fileNameForId(Integer id) {
+        return "${id}.xml"
+    }
+
 }

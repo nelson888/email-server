@@ -1,25 +1,20 @@
-package com.serversquad.polytech.mailapp.mailapp.model.mail.historic
+package com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.AttachmentRef
+import com.serversquad.polytech.mailapp.mailapp.model.mail.BodyRef
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
 
 @ToString(includePackage = false, includeFields = true, includeNames = true)
-@EqualsAndHashCode
-class Message {
+@EqualsAndHashCode(callSuper = true)
+class StoredMessage extends Message {
 
-    String emitter
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z", locale = 'en_US')
-    Date emissionMoment
-  List<AttachmentRef> attachments
-    String body
+    BodyRef bodyRef // for back email
 
     void writeXml(MarkupBuilder xml) {
         xml.message(emitter: emitter, emission_moment: XSDateConverter.format(emissionMoment)) {
-            xml.body(body)
+            bodyRef.writeXml(xml)
             xml.attachments() {
                 attachments.each { a -> a.writeXml(xml) }
             }

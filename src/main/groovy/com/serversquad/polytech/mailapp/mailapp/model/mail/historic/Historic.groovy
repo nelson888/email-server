@@ -1,6 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail.historic
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.attachment.Attachment
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.Message
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
@@ -10,7 +11,7 @@ import groovy.xml.MarkupBuilder
 class Historic {
 
     List<Message> messages
-  List<Attachment> attachments
+    List<Attachment> attachments
 
   void writeXml(MarkupBuilder xml) {
         xml.historic {

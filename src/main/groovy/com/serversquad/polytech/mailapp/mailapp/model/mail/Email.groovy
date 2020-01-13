@@ -2,7 +2,7 @@ package com.serversquad.polytech.mailapp.mailapp.model.mail
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -21,7 +21,7 @@ class Email<G> {
 
 
     String getExpeditor() {
-        List<Message> messages = historic.messages.collect()
+        List<StoredMessage> messages = historic.messages.collect()
         if (messages.size() == 0) {
             return null
         }

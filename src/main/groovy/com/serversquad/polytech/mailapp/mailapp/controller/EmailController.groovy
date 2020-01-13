@@ -1,11 +1,14 @@
 package com.serversquad.polytech.mailapp.mailapp.controller
 
 import com.serversquad.polytech.mailapp.mailapp.excepetion.NotFoundException
+import com.serversquad.polytech.mailapp.mailapp.model.mail.BodyRef
+import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredBody
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
-import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
 import com.serversquad.polytech.mailapp.mailapp.model.request.SaveMailRequest
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
+import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.group.GroupRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.participant.ParticipantRepository
 import com.serversquad.polytech.mailapp.mailapp.service.EmailSender
@@ -24,14 +27,17 @@ class EmailController {
     private final EmailRepository emailRepository
     private final EmailSender emailSender
     private final ParticipantRepository participantRepository
+    private final BodyRepository bodyRepository
     private final GroupRepository groupRepository
 
     EmailController(EmailRepository emailRepository, EmailSender emailSender,
-                    ParticipantRepository participantRepository, GroupRepository groupRepository) {
+                    ParticipantRepository participantRepository, GroupRepository groupRepository, 
+                    BodyRepository bodyRepository) {
         this.emailRepository = emailRepository
         this.emailSender = emailSender
         this.participantRepository = participantRepository
         this.groupRepository = groupRepository
+        this.bodyRepository = bodyRepository
     }
 
     @PostMapping
@@ -41,11 +47,12 @@ class EmailController {
     ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
         StoredEmail mail
-        Message message = new Message(
+        StoredBody storedBody = bodyRepository.save(request.body, request.bodyFormat) // TODO check if format exists
+        StoredMessage message = new StoredMessage(
                 emitter: request.emitter,
                 emissionMoment: new Date(),
                 attachments: [],
-                body: request.body
+                bodyRef: new BodyRef(id: storedBody.id, format: request.bodyFormat)
         )
         if (!request.uuid) {
             mail = new StoredEmail(
@@ -67,7 +74,7 @@ class EmailController {
         }
         mail.historic.messages.add(message)
         emailRepository.saveEmail(mail)
-        return ResponseEntity.ok(mail.toFrontEmail())
+        return ResponseEntity.ok(mail.toFrontEmail(bodyRepository))
     }
 
     /**
@@ -77,21 +84,21 @@ class EmailController {
      */
     @PostMapping("/{uuid}")
     ResponseEntity getById(@PathVariable("uuid") String uuid) {
-        return ResponseEntity.of(emailRepository.getByUUID(uuid).map({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.of(emailRepository.getByUUID(uuid).map({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
 
     @PostMapping("/byExpeditor/{expeditor}")
     ResponseEntity getByExpeditor(@PathVariable("expeditor") String expeditor) {
-        return ResponseEntity.ok(emailRepository.getAllByExpeditor(expeditor).collect({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.ok(emailRepository.getAllByExpeditor(expeditor).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
     @PostMapping("/byParticipant/{participant}")
     ResponseEntity getByParticipant(@PathVariable("participant") String participant) {
-        return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
 
     @PostMapping("/byParticipantName/{name}")
     ResponseEntity getByParticipantName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(emailRepository.getAllByParticipantName(name).collect({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.ok(emailRepository.getAllByParticipantName(name).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
 
     /**
@@ -101,7 +108,7 @@ class EmailController {
      */
     @PostMapping("/all")
     ResponseEntity getByAll() {
-        return ResponseEntity.ok(emailRepository.getAll())
+        return ResponseEntity.ok(emailRepository.getAll().collect { StoredEmail e -> e.toFrontEmail(bodyRepository) })
     }
 
 }
