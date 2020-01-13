@@ -4,12 +4,9 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.storage.EmailStorage
 
-import java.util.concurrent.atomic.AtomicInteger
-
 class FirebaseEmailRepository implements EmailRepository {
 
     private final EmailStorage emailStorage
-    private final AtomicInteger idGenerator = new AtomicInteger()
 
     FirebaseEmailRepository(EmailStorage emailStorage) {
         this.emailStorage = emailStorage
