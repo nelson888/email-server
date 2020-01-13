@@ -1,7 +1,9 @@
 package com.serversquad.polytech.mailapp.mailapp.controller
 
-import com.serversquad.polytech.mailapp.mailapp.model.mail.FrontEmail
+import com.serversquad.polytech.mailapp.mailapp.excepetion.NotFoundException
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
+import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Message
+import com.serversquad.polytech.mailapp.mailapp.model.request.SaveMailRequest
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.service.EmailSender
 import io.swagger.annotations.Api
@@ -12,7 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-    @RequestMapping("/emails")
+@RequestMapping("/emails")
 @Api(value = "Controller to manipulates emails")
 class EmailController {
 
@@ -29,9 +31,18 @@ class EmailController {
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully saved the email")
     ])
-    ResponseEntity saveEmail(@RequestBody FrontEmail email) throws IOException {
-        emailRepository.saveEmail(email.toStoredEmail())
-        return ResponseEntity.ok().build()
+    ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
+        StoredEmail mail = emailRepository.getByUUID(request.uuid)
+        .orElseThrow({ new NotFoundException("Email with id ${request.uuid} doesn't exists") })
+        Message message = new Message(
+                emitter: request.emitter,
+                emissionMoment: new Date(),
+                attachments: [],
+                body: request.body
+        )
+        mail.historic.messages.add(message)
+        emailRepository.saveEmail(mail)
+        return ResponseEntity.ok(mail.toFrontEmail())
     }
 
     /**
@@ -50,7 +61,12 @@ class EmailController {
     }
     @PostMapping("/byParticipant/{participant}")
     ResponseEntity getByParticipant(@PathVariable("participant") String participant) {
-        return ResponseEntity.ok(emailRepository.getAllByParticipant(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
+        return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
+    }
+
+    @PostMapping("/byParticipantName/{name}")
+    ResponseEntity getByParticipantName(@PathVariable("name") String name) {
+        return ResponseEntity.ok(emailRepository.getAllByParticipantName(name).collect({ StoredEmail e -> e.toFrontEmail() }))
     }
 
     /**

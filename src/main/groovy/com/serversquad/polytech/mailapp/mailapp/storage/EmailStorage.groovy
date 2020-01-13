@@ -7,8 +7,6 @@ import com.serversquad.polytech.mailapp.mailapp.service.FirebaseStorageService
 import groovy.util.logging.Slf4j
 import org.springframework.stereotype.Component
 
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.stream.Collectors
 
 @Component
@@ -20,16 +18,13 @@ class EmailStorage {
     private final FirebaseStorageService storageService
     private final EmailParser emailParser
 
-    private final Map<Integer, String> idNameMap = new ConcurrentHashMap<>()
-    private final AtomicInteger idGenerator = new AtomicInteger()
-
     EmailStorage(FirebaseStorageService storageService, EmailParser emailParser) {
         this.storageService = storageService
         this.emailParser = emailParser
     }
 
     StoredEmail save(StoredEmail storedEmail) throws IOException {
-        storageService.store(PREFIX, storedEmail.id + ".xml", emailParser.toBytes(storedEmail))
+        storageService.store(PREFIX, storedEmail.uuid + ".xml", emailParser.toString(storedEmail).bytes)
         return storedEmail
     }
 
