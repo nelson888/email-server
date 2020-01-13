@@ -38,7 +38,7 @@ class EmailController {
     @ApiOperation(value = "Save the given email into the server")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully saved the email")
-    ])
+    ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
         StoredEmail mail
         Message message = new Message(

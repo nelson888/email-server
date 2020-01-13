@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RestController
 @Api(value = "Controller to manipulates groups")
 class GroupController {
 
-    private final GroupRepository grouprepository;
+    private final GroupRepository groupRepository;
 
-    GroupController(GroupRepository grouprepository) {
-        this.grouprepository = grouprepository;
+    GroupController(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
     }
     @PostMapping("/{id}")
     ResponseEntity getById(@PathVariable("id") String id) {
-        return ResponseEntity.of(grouprepository.getById(id))
+        return ResponseEntity.of(groupRepository.getById(id))
     }
 
     @PostMapping("/all")
     ResponseEntity getByAll() {
-        return ResponseEntity.ok(grouprepository.getAll())
+        return ResponseEntity.ok(groupRepository.getAll())
     }
 }
