@@ -21,18 +21,10 @@ class Email<G> {
 
 
     String getExpeditor() {
-        //TODO
-        //parcourir tout les messages
-        // trouver le message avec la date la plus recente
-        // retourne message.emitter
         List<Message> messages = historic.messages.collect()
         if (messages.size() == 0) {
             return null
         }
-        messages.sort {
-            it.emissionMoment.getTime()
-        }
-        return (messages.get(0).emitter);
-
+        return messages.get(0).emitter
     }
 }
