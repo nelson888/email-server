@@ -50,9 +50,9 @@ class EmailController {
      * @param id the id of the email
      * @return
      */
-    @PostMapping("/{id}")
-    ResponseEntity getById(@PathVariable("id") int id) {
-        return ResponseEntity.of(emailRepository.getById(id).map({ StoredEmail e -> e.toFrontEmail() }))
+    @PostMapping("/{uuid}")
+    ResponseEntity getById(@PathVariable("uuid") String uuid) {
+        return ResponseEntity.of(emailRepository.getByUUID(uuid).map({ StoredEmail e -> e.toFrontEmail() }))
     }
 
     @PostMapping("/byExpeditor/{expeditor}")

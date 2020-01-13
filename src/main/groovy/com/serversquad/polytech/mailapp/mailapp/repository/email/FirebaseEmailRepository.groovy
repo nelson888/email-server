@@ -1,10 +1,9 @@
 package com.serversquad.polytech.mailapp.mailapp.repository.email
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
-import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.storage.EmailStorage
 
-class FirebaseEmailRepository implements EmailRepository {
+class FirebaseEmailRepository extends AbstractEmailRepository {
 
     private final EmailStorage emailStorage
 
@@ -26,49 +25,8 @@ class FirebaseEmailRepository implements EmailRepository {
     }
 
     @Override
-    Optional<StoredEmail> getById(int id) {
-        return emailStorage.getById(id)
-    }
-
-    @Override
     Optional<StoredEmail> getByUUID(String uuid) {
         return Optional.ofNullable(emailStorage.getAll().find { it.uuid == uuid })
     }
 
-    @Override
-    List<StoredEmail> getAllByExpeditor(String emittor) {
-        List<StoredEmail> emails = []
-        for (StoredEmail email : getAll()) {
-            if(email.getExpeditor()==emittor){
-                emails.add(email);
-            }
-        }
-        return emails
-    }
-
-    @Override
-    List<StoredEmail> getAllByParticipantId(String id) {
-        List<StoredEmail> emails = []
-        for (StoredEmail email : getAll()) {
-            for (Participant participant : email.participants){
-                if(participant.id==id){
-                    emails.add(email)
-                }
-            }
-        }
-        return emails
-    }
-
-    @Override
-    List<StoredEmail> getAllByParticipantName(String name) {
-        List<StoredEmail> emails = []
-        for (StoredEmail email : getAll()) {
-            for (Participant participant : email.participants){
-                if(participant.name==name){
-                    emails.add(email)
-                }
-            }
-        }
-        return emails
-    }
 }

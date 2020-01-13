@@ -18,14 +18,6 @@ interface EmailRepository {
     List<StoredEmail> getAll();
 
     /**
-     * Retrieve the email with the given ID if it exists
-     * @param id the id of the email
-     * @return an Optional containing the email with the given id, if it exists
-     */
-    Optional<StoredEmail> getById(int id);
-
-
-    /**
      * Retrieve the email with the given UUID if it exists
      * @param id the id of the email
      * @return an Optional containing the email with the given id, if it exists
