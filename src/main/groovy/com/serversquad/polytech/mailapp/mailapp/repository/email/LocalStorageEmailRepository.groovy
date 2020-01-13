@@ -10,9 +10,9 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
     private final EmailParser emailParser
 
     // utiliser le meme dossier pour les deux
-    @Value('${local.storage.root.in.path}')
+    @Value('${local.storage.mails.root.in.path}')
     private String rootInPath
-    @Value('${local.storage.root.out.path}')
+    @Value('${local.storage.mails.root.out.path}')
     private String rootOutPath
     private final File rootIn
     private final File rootOut

@@ -1,4 +1,4 @@
-local.storage.root:
-  in.path: TODO
+local.storage.mails.root:
+  in.path: /home/nelson/Téléchargements/emailServerStorage/in/mail
   out.path: TODO
 
