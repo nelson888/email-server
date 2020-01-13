@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/emails")
+    @RequestMapping("/emails")
 @Api(value = "Controller to manipulates emails")
 class EmailController {
 
@@ -42,6 +42,15 @@ class EmailController {
     @PostMapping("/{id}")
     ResponseEntity getById(@PathVariable("id") int id) {
         return ResponseEntity.of(emailRepository.getById(id).map({ StoredEmail e -> e.toFrontEmail() }))
+    }
+
+    @PostMapping("/byExpeditor/{expeditor}")
+    ResponseEntity getByExpeditor(@PathVariable("expeditor") String expeditor) {
+        return ResponseEntity.ok(emailRepository.getAllByExpeditor(expeditor).collect({ StoredEmail e -> e.toFrontEmail() }))
+    }
+    @PostMapping("/byParticipant/{participant}")
+    ResponseEntity getByParticipant(@PathVariable("participant") String participant) {
+        return ResponseEntity.ok(emailRepository.getAllByParticipant(participant).collect({ StoredEmail e -> e.toFrontEmail() }))
     }
 
     /**
