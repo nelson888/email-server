@@ -33,6 +33,9 @@ class EmailParser {
         email.participants = parseParticipants(root.participants)
         email.groups = parseGroups(root.groups)
         email.historic = parseHistoric(root.historic)
+        email.historic.messages.sort {
+            - it.emissionMoment.time
+        }
         return email
     }
 
