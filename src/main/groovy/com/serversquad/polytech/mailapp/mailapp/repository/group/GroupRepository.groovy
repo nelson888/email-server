@@ -31,4 +31,10 @@ class GroupRepository {
         )
     }
 
+    Optional<StoredGroup> getByName(String name) {
+        return Optional.ofNullable(
+                groups.find {StoredGroup g -> g.id == id }
+        )
+    }
+
 }
