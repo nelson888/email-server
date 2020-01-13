@@ -46,7 +46,7 @@ class EmailStorage {
 
     List<StoredEmail> getAll() {
         return storageService.blobStream()
-                .filter({ b -> b.getName().contains(PREFIX + "/") })
+                .filter({ b -> b.getName().contains(PREFIX + "/") && b.getName().endsWith(".xml") })
                 .map(this.&toEmail)
                 .collect(Collectors.toList())
     }
