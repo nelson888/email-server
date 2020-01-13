@@ -22,7 +22,7 @@ class Email<G> {
 
     String getExpeditor() {
         //TODO
-        //parcourir tout les messages
+        //parcourir tout les messagesu
         // trouver le message avec la date la plus recente
         // retourne message.emitter
         List<Message> messages = historic.messages.collect()
