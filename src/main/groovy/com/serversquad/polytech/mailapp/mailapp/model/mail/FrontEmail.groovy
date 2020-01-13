@@ -1,6 +1,10 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.FrontGroup
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
+import com.serversquad.polytech.mailapp.mailapp.repository.participant.ParticipantRepository
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -12,7 +16,16 @@ import groovy.transform.ToString
 class FrontEmail extends Email<FrontGroup> {
 
     StoredEmail toStoredEmail() {
-        //TODO convert this email to a stored email (get inspiration from StoredEmail.toFrontEmail()
-        null
+        List<StoredGroup> groups = groups.collect { FrontGroup group ->
+            StoredGroup storedGroup = new StoredGroup(id: group.id, name: group.name, canWrite: group.canWrite)
+            for (Participant participant : group.members) {
+                storedGroup.members.add(new Member(participant.id));
+            }
+            return storedGroup
+        }.toList()
+        return new StoredEmail(uuid: uuid, object: object, creationDate: creationDate,
+                participants: participants,
+                groups: groups, historic: historic)
     }
+
 }
