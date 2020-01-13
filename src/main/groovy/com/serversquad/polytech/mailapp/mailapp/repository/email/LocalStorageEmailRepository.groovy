@@ -9,20 +9,30 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     private final EmailParser emailParser
 
-    @Value('${local.storage.root.path}')
-    private String rootPath
-    private final File root
+    // utiliser le meme dossier pour les deux
+    @Value('${local.storage.root.in.path}')
+    private String rootInPath
+    @Value('${local.storage.root.out.path}')
+    private String rootOutPath
+    private final File rootIn
+    private final File rootOut
     LocalStorageEmailRepository(EmailParser emailParser) {
         this.emailParser = emailParser
-        root = new File(rootPath)
+        rootIn = new File(rootInPath)
+        checkRoot(rootIn)
+        rootOut = new File(rootOutPath)
+        checkRoot(rootOut)
+    }
+
+    private static void checkRoot(File root) {
         if (!root.exists() || !root.isDirectory()) {
-            throw new RuntimeException("$rootPath isn't a directory")
+            throw new RuntimeException("${root.path} isn't a directory")
         }
     }
 
     @Override
     List<StoredEmail> getAll() {
-        return root.listFiles()
+        return rootIn.listFiles()
         .findAll {it.name.endsWith(".xml")}
         .collect { emailParser.parseEmail(it.text) }
         .toList()
@@ -30,7 +40,7 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     @Override
     StoredEmail saveEmail(StoredEmail email) throws IOException {
-        File file = new File(root, "${email.uuid}.xml")
+        File file = new File(rootOut, "${email.uuid}.xml")
         if (!file.exists() && !file.createNewFile()) {
             throw new SaveException("Couldn't save file")
         }
@@ -40,7 +50,7 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     @Override
     Optional<StoredEmail> getByUUID(String uuid) {
-        File file = new File(root, "${uuid}.xml")
+        File file = new File(rootIn, "${uuid}.xml")
         if (!file.exists()) {
             return Optional.empty()
         }

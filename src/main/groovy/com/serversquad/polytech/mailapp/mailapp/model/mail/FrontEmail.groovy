@@ -19,7 +19,7 @@ class FrontEmail extends Email<FrontGroup> {
         List<StoredGroup> groups = groups.collect { FrontGroup group ->
             StoredGroup storedGroup = new StoredGroup(id: group.id, name: group.name, canWrite: group.canWrite)
             for (Participant participant : group.members) {
-                storedGroup.members.add(new Member(participant.id));
+                storedGroup.members.add(new Member(id: participant.id));
             }
             return storedGroup
         }.toList()
