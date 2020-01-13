@@ -4,7 +4,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 @ToString(includePackage = false, includeFields = true, includeNames = true)
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = ["id"])
 class Group<M> {
 
     String id

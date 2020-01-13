@@ -6,7 +6,7 @@ import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
 
 @ToString(includePackage = false, includeFields = true, includeNames = true)
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = ["id"])
 class Participant {
 
     ParticipantType type //= ParticipantType.NORMAL;
