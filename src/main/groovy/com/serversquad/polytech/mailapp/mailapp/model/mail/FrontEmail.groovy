@@ -4,7 +4,6 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.FrontGrou
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
-import com.serversquad.polytech.mailapp.mailapp.repository.participant.ParticipantRepository
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
