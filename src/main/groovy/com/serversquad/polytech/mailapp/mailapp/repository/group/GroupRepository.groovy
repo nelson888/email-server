@@ -3,14 +3,12 @@ package com.serversquad.polytech.mailapp.mailapp.repository.group
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import groovy.util.logging.Slf4j
 import org.springframework.stereotype.Repository
 
 @Repository
+@Slf4j('LOGGER')
 class GroupRepository {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GroupRepository.class)
 
     private List<StoredGroup> groups
 
