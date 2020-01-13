@@ -1,6 +1,7 @@
 logging.level:
   com.serversquad.polytech.mailapp.mailapp: DEBUG
-
 firebase:
   storage.bucket: mail-app-d09e7.appspot.com
   database.url: https://mail-app-d09e7.firebaseio.com
+
+#spring.profiles.active: swagger-enabled

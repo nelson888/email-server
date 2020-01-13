@@ -44,4 +44,14 @@ class EmailController {
         return ResponseEntity.of(emailRepository.getById(id).map({ StoredEmail e -> e.toFrontEmail() }))
     }
 
+    /**
+     * Get the mail with the given id
+     * @param id the id of the email
+     * @return
+     */
+    @PostMapping("/all")
+    ResponseEntity getByAll() {
+        return ResponseEntity.ok(emailRepository.getAll())
+    }
+
 }

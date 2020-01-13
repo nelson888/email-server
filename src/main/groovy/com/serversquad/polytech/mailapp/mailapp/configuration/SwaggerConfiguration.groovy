@@ -2,6 +2,7 @@ package com.serversquad.polytech.mailapp.mailapp.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.service.ApiInfo
@@ -14,11 +15,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
  * Configuration for swagger
  * doc url: http://localhost:8080/swagger-ui.html
  */
-/*
+
+@Profile("swagger-enabled")
 @Configuration
-@EnableSwagger2*/
+@EnableSwagger2
 class SwaggerConfiguration {
-/*
+
     @Bean
     ApiInfo info() {
         return new ApiInfo(
@@ -27,7 +29,7 @@ class SwaggerConfiguration {
                 "1.0",
                 "Terms of service",
                 new Contact("Server SQUAAAAAAAD", "no URL", "no email"),
-                "MIT License", "TODO", Collections.emptyList())
+                "MIT License", "some url", Collections.emptyList())
     }
 
     @Bean
@@ -39,5 +41,5 @@ class SwaggerConfiguration {
                 .build()
                 .apiInfo(info)
     }
-*/
+
 }
