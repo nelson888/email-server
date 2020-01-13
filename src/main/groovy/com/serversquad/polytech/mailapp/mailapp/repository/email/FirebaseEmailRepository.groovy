@@ -1,13 +1,13 @@
 package com.serversquad.polytech.mailapp.mailapp.repository.email
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
-import com.serversquad.polytech.mailapp.mailapp.storage.EmailStorage
+import com.serversquad.polytech.mailapp.mailapp.storage.FirebaseEmailStorage
 
 class FirebaseEmailRepository extends AbstractEmailRepository {
 
-    private final EmailStorage emailStorage
+    private final FirebaseEmailStorage emailStorage
 
-    FirebaseEmailRepository(EmailStorage emailStorage) {
+    FirebaseEmailRepository(FirebaseEmailStorage emailStorage) {
         this.emailStorage = emailStorage
     }
 
