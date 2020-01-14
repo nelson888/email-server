@@ -48,7 +48,7 @@ class EmailController {
     ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
         StoredEmail mail
-        StoredBody storedBody = bodyRepository.save(request.body, request.bodyFormat) // TODO check if format exists
+        StoredBody storedBody = bodyRepository.save(request.uuid, request.body, request.bodyFormat) // TODO check if format exists
         StoredMessage message = new StoredMessage(
                 emitter: request.emitter,
                 emissionMoment: new Date(),

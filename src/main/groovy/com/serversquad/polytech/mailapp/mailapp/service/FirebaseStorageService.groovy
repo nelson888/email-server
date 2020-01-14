@@ -3,11 +3,13 @@ package com.serversquad.polytech.mailapp.mailapp.service
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Bucket
 import com.google.cloud.storage.StorageException
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+@Profile("firebase")
 @Service
 class FirebaseStorageService {
 

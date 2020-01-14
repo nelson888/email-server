@@ -26,7 +26,7 @@ class FirebaseBodyStorage extends FirebaseStorage<StoredBody, String> {
     @Override
     protected StoredBody parse(Blob blob) {
         return new StoredBody(
-                id: blob.name - PREFIX,
+                id: blob.name - "$PREFIX/",
                 content: new XmlSlurper().parseText(new String(blob.getContent())).text(),
                 format: null // TODO use format repository? or map?
         )

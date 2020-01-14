@@ -1,5 +1,5 @@
 logging.level:
   com.serversquad.polytech.mailapp.mailapp: DEBUG
 
-# swagger-enabled
+# list of profiles: local,firebase,swagger
 spring.profiles.active: firebase,swagger

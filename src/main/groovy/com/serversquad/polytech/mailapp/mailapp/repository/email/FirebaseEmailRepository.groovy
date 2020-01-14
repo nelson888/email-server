@@ -2,7 +2,11 @@ package com.serversquad.polytech.mailapp.mailapp.repository.email
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.storage.FirebaseEmailStorage
+import org.springframework.context.annotation.Profile
+import org.springframework.stereotype.Repository
 
+@Profile("firebase")
+@Repository
 class FirebaseEmailRepository extends AbstractEmailRepository {
 
     private final FirebaseEmailStorage emailStorage

@@ -9,26 +9,15 @@ import org.springframework.web.multipart.MultipartFile
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
+
 @Component
 class AttachmentStorage {
 
     private static final String PREFIX = "attachments"
 
-    private final FirebaseStorageService storageService
-
-    private final Map<Integer, String> idNameMap = new ConcurrentHashMap<>()
-    private final AtomicInteger idGenerator = new AtomicInteger()
-
-    AttachmentStorage(FirebaseStorageService storageService) {
-        this.storageService = storageService
-    }
 
     Attachment save(MultipartFile file) throws IOException {
-        String name = file.getOriginalFilename()
-        Blob blob = storageService.store(PREFIX, name, file.getBytes())
-        Attachment attachment = new Attachment()
-        attachment.setName(name)
-        return new Attachment()
+        return null
     }
 
     Attachment getByName(String name) {

@@ -46,14 +46,5 @@ class FirebaseConfiguration {
         return storageClient.bucket(storageBucket)
     }
 
-    @Bean
-    EmailRepository emailRepository(FirebaseEmailStorage emailStorage) {
-        return new FirebaseEmailRepository(emailStorage)
-    }
-
-    @Bean
-    BodyRepository bodyRepository(FirebaseBodyStorage bodyStorage) {
-        return new FirebaseBodyRepository(bodyStorage)
-    }
 
 }

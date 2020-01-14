@@ -9,11 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 class ApplicationConfiguration {
 
-    @Bean
-    File emailRepositoryRoot() {
-        return new File(System.getProperty("user.home") + "/emailRepository")
-    }
-
     //disable cors
     @Bean
     WebMvcConfigurer corsConfigurer() {

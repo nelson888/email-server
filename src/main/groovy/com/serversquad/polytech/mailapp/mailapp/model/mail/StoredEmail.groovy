@@ -45,7 +45,7 @@ class StoredEmail extends Email<StoredGroup> {
                     emitter: message.emitter,
                     emissionMoment: new Date(message.emissionMoment.time),
                     attachments: message.attachments.collect(),
-                    body: bodyRepository.getById(message.bodyRef.id))
+                    body: bodyRepository.getById(this, message.bodyRef.id))
         }
 
         return new FrontEmail(uuid: uuid, object: object, creationDate: new Date(creationDate.time),

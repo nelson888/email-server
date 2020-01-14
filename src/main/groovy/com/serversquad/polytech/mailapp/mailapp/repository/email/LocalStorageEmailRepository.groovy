@@ -3,32 +3,25 @@ package com.serversquad.polytech.mailapp.mailapp.repository.email
 import com.serversquad.polytech.mailapp.mailapp.excepetion.SaveException
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.annotation.Profile
+import org.springframework.stereotype.Repository
 
+@Profile("local")
+@Repository
 class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     private final EmailParser emailParser
 
-    // utiliser le meme dossier pour les deux
-    @Value('${local.storage.mails.root.in.path}')
-    private String rootInPath
-    @Value('${local.storage.mails.root.out.path}')
-    private String rootOutPath
     private final File rootIn
     private final File rootOut
 
-    LocalStorageEmailRepository(EmailParser emailParser) {
+    LocalStorageEmailRepository(EmailParser emailParser,
+                                @Qualifier("emailRootIn") File rootIn,
+                                @Qualifier("emailRootOut")  File rootOut) {
         this.emailParser = emailParser
-        rootIn = new File(rootInPath)
-        checkRoot(rootIn)
-        rootOut = new File(rootOutPath)
-        checkRoot(rootOut)
-    }
-
-    private static void checkRoot(File root) {
-        if (!root.exists() || !root.isDirectory()) {
-            throw new RuntimeException("${root.path} isn't a directory")
-        }
+        this.rootIn = rootIn
+        this.rootOut = rootOut
     }
 
     @Override
