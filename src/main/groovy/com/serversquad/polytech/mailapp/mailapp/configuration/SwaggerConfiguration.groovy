@@ -40,7 +40,7 @@ class SwaggerConfiguration {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(info)
-                .ignoredParameterTypes(MetaClass.class)
+                .ignoredParameterTypes(MetaClass.class) // added to ignore metaclasses
     }
 
 }
