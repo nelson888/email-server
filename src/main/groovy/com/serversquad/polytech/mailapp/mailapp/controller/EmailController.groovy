@@ -17,6 +17,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -47,6 +48,10 @@ class EmailController {
             @ApiResponse(code = 200, message = "Successfully saved the email", response = FrontEmail.class)
     ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
+        if ([request.uuid, request.emitter, request.body].any(Objects.&isNull)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Some fields are missing")
+        }
         StoredEmail mail
         StoredBody storedBody = bodyRepository.save(request.uuid, request.body, request.bodyFormat) // TODO check if format exists
         StoredMessage message = new StoredMessage(

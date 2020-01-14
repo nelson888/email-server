@@ -4,8 +4,8 @@ class SaveMailRequest {
 
     String uuid
     String emitter
-    String body
-    String object
+    String body = ""
+    String object = ""
     String bodyFormat
     List<String> participants = []
     List<String> groups = []
