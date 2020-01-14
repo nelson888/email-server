@@ -18,7 +18,7 @@ class FirebaseEmailStorage extends FirebaseStorage<StoredEmail, Integer> {
     }
 
     @Override
-    StoredEmail save(StoredEmail storedEmail) throws IOException {
+    StoredEmail save(StoredEmail storedEmail) {
         storageService.store(PREFIX, storedEmail.uuid + ".xml", emailParser.toString(storedEmail).bytes)
         return storedEmail
     }
