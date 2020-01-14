@@ -2,6 +2,7 @@ package com.serversquad.polytech.mailapp.mailapp.controller
 
 import com.serversquad.polytech.mailapp.mailapp.excepetion.NotFoundException
 import com.serversquad.polytech.mailapp.mailapp.model.mail.BodyRef
+import com.serversquad.polytech.mailapp.mailapp.model.mail.FrontEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredBody
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
@@ -43,7 +44,7 @@ class EmailController {
     @PostMapping
     @ApiOperation(value = "Save the given email into the server")
     @ApiResponses(value = [
-            @ApiResponse(code = 200, message = "Successfully saved the email")
+            @ApiResponse(code = 200, message = "Successfully saved the email", response = FrontEmail.class)
     ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
         StoredEmail mail
@@ -83,20 +84,37 @@ class EmailController {
      * @return
      */
     @PostMapping("/{uuid}")
+    @ApiOperation(value = "Get an email by given UUID")
+    @ApiResponses(value = [
+            @ApiResponse(code = 200, message = "Successfully retrieved the email", response = FrontEmail.class),
+            @ApiResponse(code = 404, message = "Email not found")
+    ])
     ResponseEntity getById(@PathVariable("uuid") String uuid) {
         return ResponseEntity.of(emailRepository.getByUUID(uuid).map({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
 
     @PostMapping("/byExpeditor/{expeditor}")
+    @ApiOperation(value = "Get all emails by given expeditor")
+    @ApiResponses(value = [
+            @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
+    ])
     ResponseEntity getByExpeditor(@PathVariable("expeditor") String expeditor) {
         return ResponseEntity.ok(emailRepository.getAllByExpeditor(expeditor).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
     @PostMapping("/byParticipant/{participant}")
+    @ApiOperation(value = "Get all emails by given expeditor")
+    @ApiResponses(value = [
+            @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
+    ])
     ResponseEntity getByParticipant(@PathVariable("participant") String participant) {
         return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
 
     @PostMapping("/byParticipantName/{name}")
+    @ApiOperation(value = "Get all emails by given name")
+    @ApiResponses(value = [
+            @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
+    ])
     ResponseEntity getByParticipantName(@PathVariable("name") String name) {
         return ResponseEntity.ok(emailRepository.getAllByParticipantName(name).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository) }))
     }
@@ -107,6 +125,10 @@ class EmailController {
      * @return
      */
     @PostMapping("/all")
+    @ApiOperation(value = "Get all emails")
+    @ApiResponses(value = [
+            @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
+    ])
     ResponseEntity getByAll() {
         return ResponseEntity.ok(emailRepository.getAll().collect { StoredEmail e -> e.toFrontEmail(bodyRepository) })
     }
