@@ -18,7 +18,7 @@ class FirebaseEmailRepository extends AbstractEmailRepository {
     @Override
     StoredEmail saveEmail(StoredEmail email) throws IOException {
         if (email.uuid == null) {
-            email.uuid = UUID.randomUUID().toString()
+            email.uuid = 'xmmail_' + UUID.randomUUID().toString()
         }
         return emailStorage.save(email)
     }

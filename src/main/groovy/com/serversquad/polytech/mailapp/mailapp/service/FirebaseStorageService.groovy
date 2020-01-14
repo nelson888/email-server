@@ -1,11 +1,15 @@
 package com.serversquad.polytech.mailapp.mailapp.service
 
 import com.google.cloud.storage.Blob
+import com.google.cloud.storage.BlobId
+import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Bucket
 import com.google.cloud.storage.StorageException
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
+import java.nio.charset.StandardCharsets
+import java.util.concurrent.TimeUnit
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
@@ -19,9 +23,12 @@ class FirebaseStorageService {
         this.bucket = bucket
   }
 
-  Blob store(String prefix, String name, byte[] data) throws IOException {
+  Blob store(String prefix, String name, String data) throws IOException {
         try {
-            return bucket.create(prefix + '/' + name, data)
+            BlobId blobId = BlobId.of(bucket.getName(), "$prefix/$name")
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/xml").build()
+            Blob blob =  bucket.storage.create(blobInfo, data.getBytes(StandardCharsets.UTF_8))
+            return blob
         } catch (StorageException e) {
             throw new IOException("Error while creating blob", e)
         }

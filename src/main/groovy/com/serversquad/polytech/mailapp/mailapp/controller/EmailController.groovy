@@ -60,12 +60,12 @@ class EmailController {
                     uuid: "xmmail_${UUID.randomUUID().toString()}",
                     object: request.object,
                     creationDate: new Date(),
-                    participants: request.participants.collect { participantRepository.getByName(it).orElse(null) }
+                    participants: request.participants.collect { participantRepository.getByName(it).orElse(null) }.findAll(Objects.&nonNull)
                             .findAll(Objects.&nonNull).toList(),
-                    groups: request.groups.collect { groupRepository.getByName(it).orElse(null) }
+                    groups: request.groups.collect { groupRepository.getByName(it).orElse(null) }.findAll(Objects.&nonNull)
                             .findAll(Objects.&nonNull).toList(),
                     historic: new Historic(
-                            messages: [message],
+                            messages: [],
                             attachments: []
                     )
             )
@@ -73,8 +73,8 @@ class EmailController {
             mail = emailRepository.getByUUID(request.uuid)
                     .orElseThrow({ new NotFoundException("Email with id ${request.uuid} doesn't exists") })
         }
-        mail.historic.messages.add(message)
-        emailRepository.saveEmail(mail)
+        mail.historic.messages.add(0, message)
+        mail = emailRepository.saveEmail(mail)
         return ResponseEntity.ok(mail.toFrontEmail(bodyRepository))
     }
 

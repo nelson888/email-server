@@ -7,8 +7,8 @@ class SaveMailRequest {
     String body
     String object
     String bodyFormat
-    List<String> participants
-    List<String> groups
-    List<String> attachments // ignored
+    List<String> participants = []
+    List<String> groups = []
+    List<String> attachments = [] // ignored
 
 }

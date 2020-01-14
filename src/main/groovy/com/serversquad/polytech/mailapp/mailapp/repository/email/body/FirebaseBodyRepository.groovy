@@ -23,7 +23,8 @@ class FirebaseBodyRepository implements BodyRepository {
 
     @Override
     StoredBody save(String mailUuid, String content, String format) {
-        StoredBody storedBody = new StoredBody(content: content, format: format)
+        StoredBody storedBody = new StoredBody(id: 'xmmessage_' + UUID.randomUUID().toString(),
+                content: content, format: format)
         return bodyStorage.save(storedBody)
     }
 }
