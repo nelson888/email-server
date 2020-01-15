@@ -1,7 +1,7 @@
 logging.level:
   com.serversquad.polytech.mailapp.mailapp: DEBUG
 
-# list of profiles: local,firebase,swagger
-spring.profiles.active: firebase,swagger
+# list of profiles: local,firebase
+spring.profiles.active: firebase
 
 mail.messages.body.format.list: https://rcassier.myds.me/polytech_app5/xm_mail/extensions/string.xsd, https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd

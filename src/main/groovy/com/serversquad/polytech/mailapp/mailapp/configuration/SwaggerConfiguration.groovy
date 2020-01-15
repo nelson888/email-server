@@ -2,7 +2,6 @@ package com.serversquad.polytech.mailapp.mailapp.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.service.ApiInfo
@@ -16,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
  * doc url: http://localhost:8080/swagger-ui.html
  */
 
-@Profile("swagger")
 @Configuration
 @EnableSwagger2
 class SwaggerConfiguration {
