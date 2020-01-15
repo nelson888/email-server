@@ -64,7 +64,7 @@ class EmailController {
                 emitter: request.emitter,
                 emissionMoment: new Date(),
                 attachments: [],
-                bodyRef: new BodyRef(id: storedBody.id, format: bodySchemaRepository.getByName(request.bodySchema))
+                bodyRef: new BodyRef(id: storedBody.id, format: schema.url)
         )
         StoredEmail mail
         if (!request.uuid) {

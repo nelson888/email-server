@@ -24,6 +24,7 @@ class BodySchemaRepository {
         }
         return Optional.of(
                 new BodySchema(name: name,
+                        url: url,
                         xsd: url.toURL().text
                 ))
     }
@@ -31,11 +32,11 @@ class BodySchemaRepository {
     List<BodySchema> getAll() {
         return nameUrlMap.entrySet()
         .collect { def entry ->
-            new BodySchema(name: entry.key, xsd: entry.value.toURL().text) }
+            new BodySchema(name: entry.key, url: entry.value, xsd: entry.value.toURL().text) }
         .toList()
     }
 
-    String getByUrl(String name) {
-        urlNameMap.get(name)
+    BodySchema getByUrlWithoutContent(String name) {
+        return new BodySchema(name: name, url: urlNameMap.get(name))
     }
 }

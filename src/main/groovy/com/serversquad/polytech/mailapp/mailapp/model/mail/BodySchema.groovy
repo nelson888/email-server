@@ -11,7 +11,9 @@ class BodySchema {
     private static final String PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<body xmlns=\"polytech/app5/xm-mail/body/polytech/0.0.1\">"
     private static final String SUFFIX = "</body>"
+
     String name
+    String url
     String xsd
 
 

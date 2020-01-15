@@ -43,7 +43,7 @@ class StoredEmail extends Email<StoredGroup> {
         historic.messages = this.historic.messages.collect {
             StoredMessage message = (StoredMessage) it
             StoredBody body = bodyRepository.getById(this, message.bodyRef.id)
-            body.format = schemaRepository.getByUrl(body.format)
+            body.format = schemaRepository.getByUrlWithoutContent(body.format).url
             return new FrontMessage(
                     emitter: message.emitter,
                     emissionMoment: new Date(message.emissionMoment.time),
