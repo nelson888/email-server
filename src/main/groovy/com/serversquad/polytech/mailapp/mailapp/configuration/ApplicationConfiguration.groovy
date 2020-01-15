@@ -23,9 +23,9 @@ class ApplicationConfiguration {
     }
 
     @Bean
-    Map<String, String> nameUrlMap(@Value('${mail.messages.body.format.list}') String[] formats) {
+    Map<String, String> nameUrlMap(@Value('${mail.messages.body.format.list}') String[] schemaUrls) {
         Map<String, String> nameUrlMap = [:]
-        formats.each { String url ->
+        schemaUrls.each { String url ->
             String name = url.substring(url.lastIndexOf('/') + 1, url.indexOf('.xsd'))
             nameUrlMap.put(name, url)
         }
