@@ -44,6 +44,7 @@ class StoredEmail extends Email<StoredGroup> {
             StoredMessage message = (StoredMessage) it
             StoredBody body = bodyRepository.getById(this, message.bodyRef.id)
             body.format = schemaRepository.getByUrlWithoutContent(body.format).url
+            body.content = new XmlSlurper().parseText(body.content).text()
             return new FrontMessage(
                     emitter: message.emitter,
                     emissionMoment: new Date(message.emissionMoment.time),
