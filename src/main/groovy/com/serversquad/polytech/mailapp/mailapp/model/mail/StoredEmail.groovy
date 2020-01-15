@@ -8,6 +8,7 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.FrontGrou
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.StoredGroup
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Member
 import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
+import com.serversquad.polytech.mailapp.mailapp.repository.bodyformat.BodySchemaRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -30,7 +31,7 @@ class StoredEmail extends Email<StoredGroup> {
         }
     }
 
-    FrontEmail toFrontEmail(BodyRepository bodyRepository) {
+    FrontEmail toFrontEmail(BodyRepository bodyRepository, BodySchemaRepository schemaRepository) {
         List<FrontGroup> groups = groups.collect { StoredGroup group ->
             FrontGroup frontGroup = new FrontGroup(id: group.id, name: group.name, canWrite: group.canWrite)
             frontGroup.members = group.members.collect { Member member ->
@@ -41,11 +42,13 @@ class StoredEmail extends Email<StoredGroup> {
         Historic historic = new Historic(attachments: this.historic.attachments.collect())
         historic.messages = this.historic.messages.collect {
             StoredMessage message = (StoredMessage) it
+            StoredBody body = bodyRepository.getById(this, message.bodyRef.id)
+            body.format = schemaRepository.getByUrl(body.format)
             return new FrontMessage(
                     emitter: message.emitter,
                     emissionMoment: new Date(message.emissionMoment.time),
                     attachments: message.attachments.collect(),
-                    body: bodyRepository.getById(this, message.bodyRef.id))
+                    body: body)
         }
 
         return new FrontEmail(uuid: uuid, object: object, creationDate: new Date(creationDate.time),

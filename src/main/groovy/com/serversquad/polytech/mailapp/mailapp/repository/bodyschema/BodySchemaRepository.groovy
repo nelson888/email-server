@@ -7,9 +7,14 @@ import org.springframework.stereotype.Repository
 class BodySchemaRepository {
 
     private final Map<String, String> nameUrlMap
+    private final Map<String, String> urlNameMap
 
     BodySchemaRepository(Map<String, String> nameUrlMap) {
         this.nameUrlMap = nameUrlMap
+        this.urlNameMap = [:]
+        nameUrlMap.each {
+            urlNameMap.put(it.value, it.key)
+        }
     }
 
     Optional<BodySchema> getByName(String name) {
@@ -28,5 +33,9 @@ class BodySchemaRepository {
         .collect { def entry ->
             new BodySchema(name: entry.key, xsd: entry.value.toURL().text) }
         .toList()
+    }
+
+    String getByUrl(String name) {
+        urlNameMap.get(name)
     }
 }

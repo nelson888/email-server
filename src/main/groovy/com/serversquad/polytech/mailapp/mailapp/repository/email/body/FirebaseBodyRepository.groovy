@@ -2,6 +2,7 @@ package com.serversquad.polytech.mailapp.mailapp.repository.email.body
 
 import com.serversquad.polytech.mailapp.mailapp.model.mail.Email
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredBody
+import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.storage.FirebaseBodyStorage
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
@@ -18,7 +19,7 @@ class FirebaseBodyRepository implements BodyRepository {
 
     @Override
     StoredBody getById(Email email, String id) {
-        return bodyStorage.getById(id).orElse(null)
+        return bodyStorage.getById(email as StoredEmail, id).orElse(null)
     }
 
     @Override
