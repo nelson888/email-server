@@ -19,7 +19,7 @@ class ParticipantRepository {
         .unique()
         .toList()
         LOGGER.info("Participants loaded")
-        LOGGER.info(participants.toString())
+        LOGGER.info("List of all participants $participants")
     }
 
     List<Participant> getAll() {

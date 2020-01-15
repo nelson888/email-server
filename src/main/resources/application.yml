@@ -3,3 +3,5 @@ logging.level:
 
 # list of profiles: local,firebase,swagger
 spring.profiles.active: firebase,swagger
+
+mail.messages.body.format.list: https://rcassier.myds.me/polytech_app5/xm_mail/extensions/string.xsd, https://rcassier.myds.me/polytech_app5/xm_mail/extensions/polytech.xsd

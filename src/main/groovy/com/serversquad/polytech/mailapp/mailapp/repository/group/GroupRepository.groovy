@@ -18,7 +18,7 @@ class GroupRepository {
         .unique()
         .toList()
         LOGGER.info("Groups loaded")
-        LOGGER.info(groups.toString())
+        LOGGER.info("List of all groups: $groups")
     }
 
     List<StoredGroup> getAll() {
