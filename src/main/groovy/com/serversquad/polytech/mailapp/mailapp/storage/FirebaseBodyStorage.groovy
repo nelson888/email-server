@@ -8,7 +8,7 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.Stor
 import com.serversquad.polytech.mailapp.mailapp.repository.bodyformat.BodySchemaRepository
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
 import com.serversquad.polytech.mailapp.mailapp.service.FirebaseStorageService
-import groovy.xml.MarkupBuilder
+
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
