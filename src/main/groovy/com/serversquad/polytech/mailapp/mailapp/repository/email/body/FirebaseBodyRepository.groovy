@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 
 @Profile("firebase")
 @Repository
-class FirebaseBodyRepository implements BodyRepository {
+class FirebaseBodyRepository extends AbstractBodyRepository {
 
     private final FirebaseBodyStorage bodyStorage
 
@@ -25,7 +25,7 @@ class FirebaseBodyRepository implements BodyRepository {
     @Override
     StoredBody save(String mailUuid, String content, String format) {
         StoredBody storedBody = new StoredBody(id: 'xmmessage_' + UUID.randomUUID().toString(),
-                content: content, format: format)
+                content: xmlContent(content), format: format)
         return bodyStorage.save(storedBody)
     }
 }

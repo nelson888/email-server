@@ -52,6 +52,7 @@ class EmailController {
             @ApiResponse(code = 200, message = "Successfully saved the email", response = FrontEmail.class)
     ]) // TODO debug me
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
+        // TODO demander a regis si l'emitter doit apparaitre dans participants
         if ([request.uuid, request.emitter, request.body, request.bodySchema].any(Objects.&isNull)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body("Some fields are missing")

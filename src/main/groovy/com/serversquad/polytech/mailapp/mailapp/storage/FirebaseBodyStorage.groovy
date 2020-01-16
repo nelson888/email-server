@@ -29,12 +29,7 @@ class FirebaseBodyStorage extends FirebaseStorage<StoredBody, String> {
 
     @Override
     StoredBody save(StoredBody body) {
-        StringWriter writer = new StringWriter()
-        MarkupBuilder xml = new MarkupBuilder(writer)
-        xml.mkp.xmlDeclaration(version: "1.0", encoding: "UTF-8")
-        xml.body(xmlns: "polytech/app5/xm-mail/body/polytech/0.0.1" +
-                "",  body.content)
-        storageService.store(PREFIX, body.id, writer.toString())
+        storageService.store(PREFIX, body.id, body.content)
         return body
     }
 

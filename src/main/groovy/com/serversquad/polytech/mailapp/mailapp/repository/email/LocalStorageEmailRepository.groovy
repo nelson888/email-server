@@ -3,12 +3,14 @@ package com.serversquad.polytech.mailapp.mailapp.repository.email
 import com.serversquad.polytech.mailapp.mailapp.excepetion.SaveException
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 
 @Profile("local")
 @Repository
+@Slf4j('LOGGER')
 class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     private final EmailParser emailParser
@@ -22,6 +24,7 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
         this.emailParser = emailParser
         this.rootIn = rootIn
         this.rootOut = rootOut
+        LOGGER.info("Found {} emails", getAll().size())
     }
 
     @Override

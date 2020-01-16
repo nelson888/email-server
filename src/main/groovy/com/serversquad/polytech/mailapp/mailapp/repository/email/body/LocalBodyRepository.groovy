@@ -11,7 +11,7 @@ import java.nio.file.Path
 
 @Profile("local")
 @Repository
-class LocalBodyRepository implements BodyRepository {
+class LocalBodyRepository extends AbstractBodyRepository {
 
     private final String rootInPath
     private final String rootOutPath
@@ -32,7 +32,7 @@ class LocalBodyRepository implements BodyRepository {
                 .collect { it as StoredMessage }
                 .find { it.bodyRef.id == id }
                 .bodyRef.format
-        return new StoredBody(id: id, content: new XmlSlurper().parseText(file.text).text(), format: format)
+        return new StoredBody(id: id, content: file.text, format: format)
     }
 
     @Override
@@ -43,7 +43,7 @@ class LocalBodyRepository implements BodyRepository {
         }
         String id = "xmmessage_" + UUID.randomUUID().toString()
         File file = new File(directory, id)
-        file.text = content
+        file.text = xmlContent(content)
         return new StoredBody(id: id, format: format, content: content)
     }
 }
