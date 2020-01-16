@@ -44,7 +44,7 @@ class StoredEmail extends Email<StoredGroup> {
             StoredMessage message = (StoredMessage) it
             StoredBody body = bodyRepository.getById(this, message.bodyRef.id)
             body.format = schemaRepository.getByUrlWithoutContent(body.format).url
-            body.content = new XmlSlurper().parseText(body.content).text()
+            body.content = getContentWithoutRootTag(body.content)
             return new FrontMessage(
                     emitter: message.emitter,
                     emissionMoment: new Date(message.emissionMoment.time),
@@ -57,4 +57,8 @@ class StoredEmail extends Email<StoredGroup> {
                 groups: groups, historic: historic)
     }
 
+    static String getContentWithoutRootTag(String xml) {
+        int firstIndex = xml.indexOf(">")
+        return xml.substring(xml.indexOf(">", firstIndex + 1) + 1, xml.lastIndexOf('</body>'))
+    }
 }
