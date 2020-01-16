@@ -39,7 +39,7 @@ class FirebaseBodyStorage extends FirebaseStorage<StoredBody, String> {
         return new StoredBody(
                 id: blob.name - "$PREFIX/",
                 content: new String(blob.getContent(), StandardCharsets.UTF_8),
-                format: null // TODO use format repository? or map?
+                format: null
         )
     }
 

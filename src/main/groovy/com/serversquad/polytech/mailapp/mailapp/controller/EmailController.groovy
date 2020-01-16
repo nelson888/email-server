@@ -14,7 +14,7 @@ import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.group.GroupRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.participant.ParticipantRepository
-import com.serversquad.polytech.mailapp.mailapp.service.EmailSender
+
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
@@ -29,17 +29,15 @@ import org.springframework.web.bind.annotation.*
 class EmailController {
 
     private final EmailRepository emailRepository
-    private final EmailSender emailSender
     private final ParticipantRepository participantRepository
     private final BodyRepository bodyRepository
     private final GroupRepository groupRepository
     private final BodySchemaRepository bodySchemaRepository
 
-    EmailController(EmailRepository emailRepository, EmailSender emailSender,
+    EmailController(EmailRepository emailRepository,
                     ParticipantRepository participantRepository, GroupRepository groupRepository,
                     BodyRepository bodyRepository, BodySchemaRepository bodySchemaRepository) {
         this.emailRepository = emailRepository
-        this.emailSender = emailSender
         this.participantRepository = participantRepository
         this.groupRepository = groupRepository
         this.bodyRepository = bodyRepository
