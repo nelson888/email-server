@@ -60,7 +60,6 @@ class EmailController {
         BodySchema schema = bodySchemaRepository.getByName(request.bodySchema)
                 .orElseThrow({ new NotFoundException("schema ${request.bodySchema} doesn't exists")})
         schema.validate(request.body)
-        if (true) return ResponseEntity.ok().build()
         StoredBody storedBody = bodyRepository.save(request.uuid, request.body, schema.name)
         StoredMessage message = new StoredMessage(
                 emitter: request.emitter,
