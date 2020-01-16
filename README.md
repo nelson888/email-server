@@ -62,6 +62,11 @@ It is accessible via [this url](https://mail-server-polytech.herokuapp.com/swagg
 Note that the first ping to an Heroku link might be slow because
 Heroku ('s free forfeit) kills the application after 30mn of inactivity
 
+# Validation
+Each messages sent by the client to the server are validated by the schemas
+provided by Regis, and if they are valid, they'll be stored
+
+Mails are also validated when they are read (on the localMailRepository)
 
 If you run the application locally, the url is [http://localhost:8080/](http://localhost:8080/)
 and the swagger is [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
