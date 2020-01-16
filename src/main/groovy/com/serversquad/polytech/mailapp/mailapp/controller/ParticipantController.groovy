@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -21,7 +21,7 @@ class ParticipantController {
     ParticipantController(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get a participant by given id")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved the participant", response = Participant.class),
@@ -31,7 +31,7 @@ class ParticipantController {
         return ResponseEntity.of(participantRepository.getById(id))
     }
 
-    @PostMapping("/byName/{name}")
+    @GetMapping("/byName/{name}")
     @ApiOperation(value = "Get a participant by given name")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved the participant", response = Participant.class),
@@ -40,7 +40,7 @@ class ParticipantController {
     ResponseEntity getByName(@PathVariable("name") String name) {
         return ResponseEntity.of(participantRepository.getByName(name))
     }
-    @PostMapping("/all")
+    @GetMapping("/all")
     @ApiOperation(value = "Get all participants")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved participants", response = List.class),
