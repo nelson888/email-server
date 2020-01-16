@@ -14,6 +14,10 @@ class XmlValidator {
         ))
     }
 
+    static void validateFromXsdUrl(String xsdUrl, String xmlContent) throws MalformedXmlException {
+        validate(xsdUrl.toURL().text, xmlContent)
+    }
+
     static void validate(String xsd, String xmlContent) throws MalformedXmlException {
         try {
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)

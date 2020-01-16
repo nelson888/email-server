@@ -1,10 +1,13 @@
 package com.serversquad.polytech.mailapp.mailapp.repository.email
 
+import com.serversquad.polytech.mailapp.mailapp.excepetion.MalformedXmlException
 import com.serversquad.polytech.mailapp.mailapp.excepetion.SaveException
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
+import com.serversquad.polytech.mailapp.mailapp.service.XmlValidator
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 
@@ -17,6 +20,9 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     private final File rootIn
     private final File rootOut
+
+    @Value('${mail.xsd.url}')
+    private String mailXsdUrl
 
     LocalStorageEmailRepository(EmailParser emailParser,
                                 @Qualifier("emailRootIn") File rootIn,
@@ -31,7 +37,15 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
     List<StoredEmail> getAll() {
         return rootIn.listFiles()
         .findAll {it.name.endsWith(".xml")}
-        .collect { emailParser.parseEmail(it.text) }
+        .collect {
+            String text = it.text
+            try {
+                XmlValidator.validateFromXsdUrl(mailXsdUrl, text)
+            } catch (MalformedXmlException e) {
+                return null
+            }
+            emailParser.parseEmail(text) }
+        .findAll(Objects.&nonNull)
         .toList()
     }
 
