@@ -1,6 +1,7 @@
 package com.serversquad.polytech.mailapp.mailapp.model.mail
 
 import com.serversquad.polytech.mailapp.mailapp.excepetion.MalformedXmlException
+import com.serversquad.polytech.mailapp.mailapp.repository.email.body.AbstractBodyRepository
 
 import javax.xml.XMLConstants
 import javax.xml.transform.stream.StreamSource
@@ -18,7 +19,9 @@ class BodySchema {
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
                     .newSchema(new URL(url))
                     .newValidator()
-                    .validate(new StreamSource(xml)) // TODO find a way to put full content in xml (starting tag)
+                    .validate(new StreamSource(new ByteArrayInputStream(
+                            AbstractBodyRepository.xmlContent(xml, name).bytes
+                    )))
         } catch (Exception e) {
             throw new MalformedXmlException(e)
         }

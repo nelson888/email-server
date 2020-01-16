@@ -9,7 +9,6 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
 import com.serversquad.polytech.mailapp.mailapp.model.request.SaveMailRequest
-import com.serversquad.polytech.mailapp.mailapp.repository.bodyformat.BodySchemaRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.group.GroupRepository
@@ -59,7 +58,7 @@ class EmailController {
         }
         BodySchema schema = bodySchemaRepository.getByName(request.bodySchema)
                 .orElseThrow({ new NotFoundException("schema ${request.bodySchema} doesn't exists")})
-        //schema.validate(request.body) TODO fix validate bug
+        schema.validate(request.body)
         StoredBody storedBody = bodyRepository.save(request.uuid, request.body, schema.name)
         StoredMessage message = new StoredMessage(
                 emitter: request.emitter,

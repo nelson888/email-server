@@ -12,7 +12,7 @@ class BodySchemaTest {
 
     @Test
     void test() {
-        File file = new File('/home/nelson/Téléchargements/emailServerStorage/in/body/all/xmmessage_44d6dfdc-baa8-4d0a-b5a9-cdbb347a347d')
+        File file = new File('/home/nelson/Téléchargements/testBody.xml')
         println(file.text)
         try {
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
