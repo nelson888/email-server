@@ -8,8 +8,8 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -25,7 +25,7 @@ class BodySchemaController {
         this.bodySchemaRepository = bodySchemaRepository
     }
 
-    @PostMapping("/{name}")
+    @GetMapping("/{name}")
     @ApiOperation(value = "Get a participant by given id")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved the schema", response = BodySchema.class),
@@ -35,7 +35,7 @@ class BodySchemaController {
         return ResponseEntity.of(bodySchemaRepository.getByName(name))
     }
 
-    @PostMapping("/all")
+    @GetMapping("/all")
     @ApiOperation(value = "Get all emails")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved schemas", response = List.class),

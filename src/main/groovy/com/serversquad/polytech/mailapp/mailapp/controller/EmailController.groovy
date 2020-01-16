@@ -104,7 +104,7 @@ class EmailController {
      * @param id the id of the email
      * @return
      */
-    @PostMapping("/{uuid}")
+    @GetMapping("/{uuid}")
     @ApiOperation(value = "Get an email by given UUID")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved the email", response = FrontEmail.class),
@@ -114,7 +114,7 @@ class EmailController {
         return ResponseEntity.of(emailRepository.getByUUID(uuid).map({ StoredEmail e -> e.toFrontEmail(bodyRepository, bodySchemaRepository) }))
     }
 
-    @PostMapping("/byExpeditor/{expeditor}")
+    @GetMapping("/byExpeditor/{expeditor}")
     @ApiOperation(value = "Get all emails by given expeditor")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
@@ -122,7 +122,7 @@ class EmailController {
     ResponseEntity getByExpeditor(@PathVariable("expeditor") String expeditor) {
         return ResponseEntity.ok(emailRepository.getAllByExpeditor(expeditor).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository, bodySchemaRepository) }))
     }
-    @PostMapping("/byParticipant/{participant}")
+    @GetMapping("/byParticipant/{participant}")
     @ApiOperation(value = "Get all emails by given expeditor")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
@@ -131,7 +131,7 @@ class EmailController {
         return ResponseEntity.ok(emailRepository.getAllByParticipantId(participant).collect({ StoredEmail e -> e.toFrontEmail(bodyRepository, bodySchemaRepository) }))
     }
 
-    @PostMapping("/byParticipantName/{name}")
+    @GetMapping("/byParticipantName/{name}")
     @ApiOperation(value = "Get all emails by given name")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),
@@ -145,7 +145,7 @@ class EmailController {
      * @param id the id of the email
      * @return
      */
-    @PostMapping("/all")
+    @GetMapping("/all")
     @ApiOperation(value = "Get all emails")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved emails", response = List.class),

@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -22,7 +22,7 @@ class GroupController {
     GroupController(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get a group by given id")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved the group", response = FrontGroup.class),
@@ -32,7 +32,7 @@ class GroupController {
         return ResponseEntity.of(groupRepository.getById(id))
     }
 
-    @PostMapping("/all")
+    @GetMapping("/all")
     @ApiOperation(value = "Get all groups")
     @ApiResponses(value = [
             @ApiResponse(code = 200, message = "Successfully retrieved groups", response = List.class),
