@@ -8,6 +8,7 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredBody
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
+import com.serversquad.polytech.mailapp.mailapp.model.mail.participant.Participant
 import com.serversquad.polytech.mailapp.mailapp.model.request.SaveMailRequest
 import com.serversquad.polytech.mailapp.mailapp.repository.bodyformat.BodySchemaRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
@@ -73,7 +74,7 @@ class EmailController {
                     uuid: "xmmail_${UUID.randomUUID().toString()}",
                     object: request.object,
                     creationDate: new Date(),
-                    participants: request.participants.collect { participantRepository.getByName(it).orElse(null) }
+                    participants: request.participants.collect { participantRepository.getById(it).orElse(null) }
                             .findAll(Objects.&nonNull).toList(),
                     groups: request.groups.collect { groupRepository.getByName(it).orElse(null) }
                             .findAll(Objects.&nonNull).toList(),
@@ -85,6 +86,13 @@ class EmailController {
         } else {
             mail = emailRepository.getByUUID(request.uuid)
                     .orElseThrow({ new NotFoundException("Email with id ${request.uuid} doesn't exists") })
+            List<Participant> participants = request.participants
+                    .collect { participantRepository.getById(it).orElse(null) }
+                    .findAll(Objects.&nonNull)
+                    .toList()
+            participants.addAll(mail.participants)
+            mail.participants = participants.unique()
+
         }
         mail.historic.messages.add(0, message)
         mail = emailRepository.saveEmail(mail)
