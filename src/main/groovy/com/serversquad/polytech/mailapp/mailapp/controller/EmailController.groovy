@@ -50,7 +50,7 @@ class EmailController {
             @ApiResponse(code = 200, message = "Successfully saved the email", response = FrontEmail.class)
     ])
     ResponseEntity saveEmail(@RequestBody SaveMailRequest request) throws IOException {
-        if ([request.uuid, request.emitter, request.body, request.bodySchema].any(Objects.&isNull)) {
+        if ([request.emitter, request.body, request.bodySchema].any(Objects.&isNull)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body("Some fields are missing")
         }
@@ -73,9 +73,9 @@ class EmailController {
                     uuid: "xmmail_${UUID.randomUUID().toString()}",
                     object: request.object,
                     creationDate: new Date(),
-                    participants: request.participants.collect { participantRepository.getByName(it).orElse(null) }.findAll(Objects.&nonNull)
+                    participants: request.participants.collect { participantRepository.getByName(it).orElse(null) }
                             .findAll(Objects.&nonNull).toList(),
-                    groups: request.groups.collect { groupRepository.getByName(it).orElse(null) }.findAll(Objects.&nonNull)
+                    groups: request.groups.collect { groupRepository.getByName(it).orElse(null) }
                             .findAll(Objects.&nonNull).toList(),
                     historic: new Historic(
                             messages: [],
