@@ -29,7 +29,7 @@ and return a specific error response code.
 All data classes
 
 ### repository
-A Repository is a class allowing to retrieve elements
+A Repository is a class allowing to retrieve/save elements
 of a certain type
 
 ### service
