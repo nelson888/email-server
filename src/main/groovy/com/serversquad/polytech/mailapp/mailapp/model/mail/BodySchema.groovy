@@ -8,27 +8,19 @@ import javax.xml.validation.SchemaFactory
 
 class BodySchema {
 
-    private static final String PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-            "<body xmlns=\"polytech/app5/xm-mail/body/polytech/0.0.1\">"
-    private static final String SUFFIX = "</body>"
-
     String name
     String url
     String xsd
 
 
-    boolean validate(String xml) throws MalformedXmlException {
+    void validate(String xml) throws MalformedXmlException {
         try {
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-                    .newSchema((new StreamSource(new StringReader(xsd))))
+                    .newSchema(new URL(url))
                     .newValidator()
-                    .validate( new StreamSource(new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                            "<body xmlns=\"polytech/app5/xm-mail/body/polytech/0.0.1\">$xml, \n" +
-                            " \n" +
-                            "</body>")))
+                    .validate(new StreamSource(xml)) // TODO find a way to put full content in xml (starting tag)
         } catch (Exception e) {
             throw new MalformedXmlException(e)
         }
-
     }
 }
