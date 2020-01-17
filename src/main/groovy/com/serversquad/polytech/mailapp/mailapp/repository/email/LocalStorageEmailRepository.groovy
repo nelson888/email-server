@@ -56,6 +56,7 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
             throw new SaveException("Couldn't save file")
         }
         file.text = emailParser.toString(email)
+        LOGGER.info("Saved email ${email.uuid} at  ${file.path}")
         return email
     }
 

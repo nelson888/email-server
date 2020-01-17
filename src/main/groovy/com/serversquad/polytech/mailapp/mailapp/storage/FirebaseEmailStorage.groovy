@@ -19,7 +19,8 @@ class FirebaseEmailStorage extends FirebaseStorage<StoredEmail, Integer> {
 
     @Override
     StoredEmail save(StoredEmail storedEmail) {
-        storageService.store(PREFIX, storedEmail.uuid + ".xml", emailParser.toString(storedEmail))
+        Blob blob = storageService.store(PREFIX, storedEmail.uuid + ".xml", emailParser.toString(storedEmail))
+        LOGGER.info("Saved email ${storedEmail.uuid} at  ${blob.name}")
         return storedEmail
     }
 

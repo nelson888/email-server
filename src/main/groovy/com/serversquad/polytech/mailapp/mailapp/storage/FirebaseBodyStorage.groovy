@@ -29,7 +29,8 @@ class FirebaseBodyStorage extends FirebaseStorage<StoredBody, String> {
 
     @Override
     StoredBody save(StoredBody body) {
-        storageService.store(PREFIX, body.id, body.content)
+        Blob blob = storageService.store(PREFIX, body.id, body.content)
+        LOGGER.info("Saved body ${body.id} at ${blob.name}")
         return body
     }
 

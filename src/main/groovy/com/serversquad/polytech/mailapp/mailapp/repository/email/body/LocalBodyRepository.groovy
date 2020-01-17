@@ -3,12 +3,14 @@ package com.serversquad.polytech.mailapp.mailapp.repository.email.body
 import com.serversquad.polytech.mailapp.mailapp.model.mail.Email
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredBody
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 
 import java.nio.file.Path
 
+@Slf4j('LOGGER')
 @Profile("local")
 @Repository
 class LocalBodyRepository extends AbstractBodyRepository {
@@ -44,6 +46,7 @@ class LocalBodyRepository extends AbstractBodyRepository {
         String id = "xmmessage_" + UUID.randomUUID().toString()
         File file = new File(directory, id)
         file.text = xmlContent(content, format)
+        LOGGER.info("Saved body for mail $mailUuid at  ${file.path}")
         return new StoredBody(id: id, format: format, content: content)
     }
 }
