@@ -4,9 +4,11 @@ import com.google.cloud.storage.Blob
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
 import com.serversquad.polytech.mailapp.mailapp.service.FirebaseStorageService
+import groovy.util.logging.Slf4j
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
+@Slf4j('LOGGER')
 @Profile("firebase")
 @Component
 class FirebaseEmailStorage extends FirebaseStorage<StoredEmail, Integer> {

@@ -8,12 +8,13 @@ import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.Stor
 import com.serversquad.polytech.mailapp.mailapp.repository.bodyformat.BodySchemaRepository
 import com.serversquad.polytech.mailapp.mailapp.service.EmailParser
 import com.serversquad.polytech.mailapp.mailapp.service.FirebaseStorageService
-
+import groovy.util.logging.Slf4j
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 import java.nio.charset.StandardCharsets
 
+@Slf4j('LOGGER')
 @Profile("firebase")
 @Component
 class FirebaseBodyStorage extends FirebaseStorage<StoredBody, String> {
