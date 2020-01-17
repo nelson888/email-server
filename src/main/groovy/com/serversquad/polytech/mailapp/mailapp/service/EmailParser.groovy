@@ -2,7 +2,7 @@ package com.serversquad.polytech.mailapp.mailapp.service
 
 import com.serversquad.polytech.mailapp.mailapp.model.converter.XSDateConverter
 import com.serversquad.polytech.mailapp.mailapp.model.mail.BodyRef
-import com.serversquad.polytech.mailapp.mailapp.model.mail.ParticipantType
+
 import com.serversquad.polytech.mailapp.mailapp.model.mail.StoredEmail
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.Historic
 import com.serversquad.polytech.mailapp.mailapp.model.mail.historic.message.StoredMessage
@@ -81,21 +81,7 @@ class EmailParser {
 
 
     private static Participant parseParticipant(GPathResult child) {
-        return new Participant(id: child['@id'], name: child['@name'],
-                type: parseType(child), priority: child['@priority']?.toInteger() ?: 0)
-    }
-
-
-    private static ParticipantType parseType(GPathResult child) {
-        ParticipantType type = ParticipantType.NORMAL
-        String typeAttr = child['@type']
-        if (typeAttr) {
-            try {
-                type = ParticipantType.valueOf(typeAttr.toUpperCase())
-            } catch (IllegalArgumentException ignored) {
-            }
-        }
-        return type
+        return new Participant(id: child['@id'], name: child['@name'])
     }
 
     private static Historic parseHistoric(GPathResult node) {
