@@ -95,7 +95,10 @@ class EmailController {
                 bodyRef: new BodyRef(id: storedBody.id, format: schema.url)
         ))
         mail = emailRepository.saveEmail(mail)
-        LOGGER.info("${request.emitter} Sent a new message at ${new Date()}")
+        def optParticipant = participantRepository.getById(request.emitter)
+        optParticipant.ifPresent({
+            LOGGER.info("${it.name} Sent a new message at ${new Date()}")
+        })
         return ResponseEntity.ok(mail.toFrontEmail(bodyRepository, bodySchemaRepository))
     }
 
