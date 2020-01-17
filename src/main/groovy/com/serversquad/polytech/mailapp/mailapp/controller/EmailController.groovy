@@ -15,7 +15,7 @@ import com.serversquad.polytech.mailapp.mailapp.repository.email.EmailRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.email.body.BodyRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.group.GroupRepository
 import com.serversquad.polytech.mailapp.mailapp.repository.participant.ParticipantRepository
-
+import groovy.util.logging.Slf4j
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Slf4j('LOGGER')
 @RestController
 @RequestMapping("/emails")
 @Api(value = "Controller to manipulates emails")
@@ -94,6 +95,7 @@ class EmailController {
                 bodyRef: new BodyRef(id: storedBody.id, format: schema.url)
         ))
         mail = emailRepository.saveEmail(mail)
+        LOGGER.info("${request.emitter} Sent a new message at ${new Date()}")
         return ResponseEntity.ok(mail.toFrontEmail(bodyRepository, bodySchemaRepository))
     }
 
