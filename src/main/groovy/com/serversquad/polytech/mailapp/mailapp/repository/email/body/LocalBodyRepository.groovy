@@ -43,7 +43,7 @@ class LocalBodyRepository extends AbstractBodyRepository {
         }
         String id = "xmmessage_" + UUID.randomUUID().toString()
         File file = new File(directory, id)
-        file.text = xmlContent(content)
+        file.text = xmlContent(content, format)
         return new StoredBody(id: id, format: format, content: content)
     }
 }

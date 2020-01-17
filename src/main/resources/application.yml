@@ -2,7 +2,7 @@ logging.level:
   com.serversquad.polytech.mailapp.mailapp: DEBUG
 
 # list of profiles: local,firebase
-spring.profiles.active: firebase
+spring.profiles.active: local
 
 
 mail.xsd.url: https://rcassier.myds.me/polytech_app5/xm_mail/xm-mail_0.2.1.xsd

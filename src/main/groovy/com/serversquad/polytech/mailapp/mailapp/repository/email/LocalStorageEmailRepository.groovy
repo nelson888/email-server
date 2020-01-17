@@ -20,16 +20,16 @@ class LocalStorageEmailRepository extends AbstractEmailRepository {
 
     private final File rootIn
     private final File rootOut
-
-    @Value('${mail.xsd.url}')
-    private String mailXsdUrl
+    private final String mailXsdUrl
 
     LocalStorageEmailRepository(EmailParser emailParser,
                                 @Qualifier("emailRootIn") File rootIn,
-                                @Qualifier("emailRootOut")  File rootOut) {
+                                @Qualifier("emailRootOut")  File rootOut,
+                                @Value('${mail.xsd.url}') String mailXsdUrl) {
         this.emailParser = emailParser
         this.rootIn = rootIn
         this.rootOut = rootOut
+        this.mailXsdUrl = mailXsdUrl
         LOGGER.info("Found {} emails", getAll().size())
     }
 
