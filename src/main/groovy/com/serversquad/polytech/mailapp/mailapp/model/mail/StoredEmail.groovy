@@ -19,7 +19,7 @@ import groovy.xml.MarkupBuilder
 class StoredEmail extends Email<StoredGroup> {
 
     void writeXml(MarkupBuilder xml) {
-        xml.email(creation_moment: XSDateConverter.format(creationDate), uuid: uuid) {
+        xml.'xm-mail'(xmlns: 'polytech/app5/xm-mail/0.2.0', creation_moment: XSDateConverter.format(creationDate), uuid: uuid) {
             object(object)
             participants() {
                 participants.each { Participant p -> p.writeXml(xml) }
