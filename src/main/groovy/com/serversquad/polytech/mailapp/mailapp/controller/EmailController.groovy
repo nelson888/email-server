@@ -61,13 +61,6 @@ class EmailController {
         BodySchema schema = bodySchemaRepository.getByName(request.bodySchema)
                 .orElseThrow({ new NotFoundException("schema ${request.bodySchema} doesn't exists")})
         schema.validate(request.body)
-        StoredBody storedBody = bodyRepository.save(request.uuid, request.body, schema.name)
-        StoredMessage message = new StoredMessage(
-                emitter: request.emitter,
-                emissionMoment: new Date(),
-                attachments: [],
-                bodyRef: new BodyRef(id: storedBody.id, format: schema.url)
-        )
         StoredEmail mail
         if (!request.uuid) {
             mail = new StoredEmail(
@@ -92,9 +85,14 @@ class EmailController {
                     .toList()
             participants.addAll(mail.participants)
             mail.participants = participants.unique()
-
         }
-        mail.historic.messages.add(0, message)
+        StoredBody storedBody = bodyRepository.save(mail.uuid, request.body, schema.name)
+        mail.historic.messages.add(0, new StoredMessage(
+                emitter: request.emitter,
+                emissionMoment: new Date(),
+                attachments: [],
+                bodyRef: new BodyRef(id: storedBody.id, format: schema.url)
+        ))
         mail = emailRepository.saveEmail(mail)
         return ResponseEntity.ok(mail.toFrontEmail(bodyRepository, bodySchemaRepository))
     }
